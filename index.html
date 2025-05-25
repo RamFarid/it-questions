@@ -1,0 +1,3719 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Questions</title>
+    <style>
+      .btns {
+        gap: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        background-color: #333;
+        border-radius: 12px;
+        padding: 32px 0;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        font-weight: 300;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        opacity: 0.9;
+        font-size: 1.1em;
+      }
+
+      .questions-container {
+        padding: 40px;
+      }
+
+      .question-card {
+        background: #f8f9fa;
+        scroll-snap-align: end; /* Or use 'start', 'center' */
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border-left: 5px solid #4facfe;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .question-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .question-text {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+
+      .options {
+        list-style: none;
+        margin-bottom: 20px;
+      }
+
+      .option {
+        background: white;
+        padding: 12px 18px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        transition: all 0.2s ease;
+        cursor: default;
+      }
+
+      .option:hover,
+      .option.active {
+        border-color: #4facfe;
+        background: #f0f8ff;
+      }
+
+      .answer {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1em;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+      }
+
+      .question-number {
+        display: inline-block;
+        background: #4facfe;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          margin: 10px;
+          border-radius: 10px;
+        }
+
+        .header {
+          padding: 20px;
+        }
+
+        .header h1 {
+          font-size: 2em;
+        }
+
+        .questions-container {
+          padding: 20px;
+        }
+
+        .question-card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="btns">
+      <div class="option" data-chapter="1">Chapter 1</div>
+      <div class="option" data-chapter="2">Chapter 2</div>
+      <div class="option" data-chapter="3">Chapter 3</div>
+      <div class="option" data-chapter="4">Chapter 4</div>
+      <div class="option" data-chapter="5">Chapter 5</div>
+      <div class="option" data-chapter="6">Chapter 6</div>
+      <div class="option" data-chapter="7">Chapter 7</div>
+      <div class="option" data-chapter="8">Chapter 8</div>
+    </div>
+    <div class="container">
+      <div class="header">
+        <h1>Quiz Questions</h1>
+        <p>Review questions with shuffled options</p>
+      </div>
+      <div class="questions-container" id="questionsContainer">
+        <!-- Questions will be inserted here -->
+      </div>
+    </div>
+
+    <script>
+      const chapter7 = [
+        {
+          question: '1. What is Voice over Internet Protocol (VoIP)?',
+          options: [
+            'a) A protocol for file transfer',
+            'b) A method to make phone calls over the Internet',
+            'c) A type of network hardware',
+            'd) A video streaming service',
+          ],
+          correctAnswer: 'b) A method to make phone calls over the Internet',
+        },
+        {
+          question: '2. How does VoIP differ from traditional phone lines?',
+          options: [
+            'a) It uses analog signals',
+            'b) It requires a dedicated phone line',
+            'c) It uses a broadband Internet connection',
+            'd) It cannot connect to landlines',
+          ],
+          correctAnswer: 'c) It uses a broadband Internet connection',
+        },
+        {
+          question: '3. What is a benefit of VoIP for consumers?',
+          options: [
+            'a) Higher phone charges',
+            'b) Simplified management with a single voice/data network',
+            'c) Requires complex hardware',
+            'd) Limited accessibility',
+          ],
+          correctAnswer:
+            'b) Simplified management with a single voice/data network',
+        },
+        {
+          question: '4. What does basic VoIP access typically allow?',
+          options: [
+            'a) Calls to traditional landlines only',
+            'b) Calls to others using VoIP over the Internet',
+            'c) Video streaming',
+            'd) File transfers',
+          ],
+          correctAnswer: 'b) Calls to others using VoIP over the Internet',
+        },
+        {
+          question: '5. How can VoIP features be configured?',
+          options: [
+            'a) Through a complex server setup',
+            'b) Using a simple web interface',
+            'c) Via analog phone lines',
+            'd) By installing dedicated hardware',
+          ],
+          correctAnswer: 'b) Using a simple web interface',
+        },
+        {
+          question: '6. Which is a cost-related benefit of VoIP?',
+          options: [
+            'a) Increased travel costs',
+            'b) Reduced phone charges',
+            'c) Higher hardware costs',
+            'd) Complex maintenance',
+          ],
+          correctAnswer: 'b) Reduced phone charges',
+        },
+        {
+          question: '7. How does VoIP help employees stay connected?',
+          options: [
+            'a) By limiting phone numbers',
+            'b) By ringing one number on multiple devices',
+            'c) By requiring dedicated servers',
+            'd) By reducing call quality',
+          ],
+          correctAnswer: 'b) By ringing one number on multiple devices',
+        },
+        {
+          question: '8. What is a scalability benefit of VoIP?',
+          options: [
+            'a) Difficult to grow the phone system',
+            'b) Easily grow the phone system as needed',
+            'c) Requires new hardware for each user',
+            'd) Limited to local networks',
+          ],
+          correctAnswer: 'b) Easily grow the phone system as needed',
+        },
+        {
+          question: '9. Where can VoIP system features be accessed?',
+          options: [
+            'a) Only in the office',
+            'b) Anywhere with a broadband connection',
+            'c) Only on dedicated VoIP phones',
+            'd) Only during power outages',
+          ],
+          correctAnswer: 'b) Anywhere with a broadband connection',
+        },
+        {
+          question: '10. Which protocol was one of the first used for VoIP?',
+          options: ['a) SIP', 'b) H.323', 'c) MGCP', 'd) RTP'],
+          correctAnswer: 'b) H.323',
+        },
+        {
+          question:
+            '11. Which protocol has gained widespread VoIP market penetration?',
+          options: ['a) H.323', 'b) MGCP', 'c) SIP', 'd) IAX'],
+          correctAnswer: 'c) SIP',
+        },
+        {
+          question:
+            '12. What is the role of the Real-time Transport Protocol (RTP) in VoIP?',
+          options: [
+            'a) Session initiation',
+            'b) Real-time data transport',
+            'c) Network addressing',
+            'd) File transfer',
+          ],
+          correctAnswer: 'b) Real-time data transport',
+        },
+        {
+          question:
+            '13. Which protocol is used for describing multimedia sessions?',
+          options: ['a) SDP', 'b) MGCP', 'c) IAX', 'd) Jingle'],
+          correctAnswer: 'a) SDP',
+        },
+        {
+          question:
+            '14. Which protocol is associated with Inter-Asterisk eXchange (IAX)?',
+          options: [
+            'a) Video streaming',
+            'b) VoIP communication',
+            'c) Email transfer',
+            'd) Web browsing',
+          ],
+          correctAnswer: 'b) VoIP communication',
+        },
+        {
+          question: '15. What is a characteristic of the SIP protocol?',
+          options: [
+            'a) It is hardware-dependent',
+            'b) It is text-based, similar to HTTP and SMTP',
+            'c) It only supports unicast sessions',
+            'd) It runs only on TCP',
+          ],
+          correctAnswer: 'b) It is text-based, similar to HTTP and SMTP',
+        },
+        {
+          question: '16. What can SIP be used for besides voice calls?',
+          options: [
+            'a) File compression',
+            'b) Video conferencing and instant messaging',
+            'c) Network routing',
+            'd) Data encryption',
+          ],
+          correctAnswer: 'b) Video conferencing and instant messaging',
+        },
+        {
+          question: '17. Which transport layer protocols can SIP run on?',
+          options: [
+            'a) TCP only',
+            'b) UDP only',
+            'c) TCP, UDP, or SCTP',
+            'd) HTTP only',
+          ],
+          correctAnswer: 'c) TCP, UDP, or SCTP',
+        },
+        {
+          question: '18. What is the role of a SIP user agent (UA)?',
+          options: [
+            'a) To manage network security',
+            'b) To create or receive SIP messages',
+            'c) To store call logs',
+            'd) To compress audio data',
+          ],
+          correctAnswer: 'b) To create or receive SIP messages',
+        },
+        {
+          question: '19. What are the two roles a SIP user agent can perform?',
+          options: [
+            'a) Server and router',
+            'b) Client and server',
+            'c) Proxy and registrar',
+            'd) Gateway and redirect',
+          ],
+          correctAnswer: 'b) Client and server',
+        },
+        {
+          question: '20. What is a SIP phone?',
+          options: [
+            'a) A traditional landline phone',
+            'b) A user agent providing call functions like a telephone',
+            'c) A network router',
+            'd) A video streaming device',
+          ],
+          correctAnswer:
+            'b) A user agent providing call functions like a telephone',
+        },
+        {
+          question: '21. What is the primary role of a SIP proxy server?',
+          options: [
+            'a) To store user data',
+            'b) To route requests to the targeted user',
+            'c) To compress VoIP calls',
+            'd) To manage power supply',
+          ],
+          correctAnswer: 'b) To route requests to the targeted user',
+        },
+        {
+          question: '22. What does a SIP registrar do?',
+          options: [
+            'a) Routes data packets',
+            'b) Accepts REGISTER requests and updates location service',
+            'c) Initiates video streams',
+            'd) Encrypts calls',
+          ],
+          correctAnswer:
+            'b) Accepts REGISTER requests and updates location service',
+        },
+        {
+          question: '23. What is the function of a SIP gateway?',
+          options: [
+            'a) To manage user accounts',
+            'b) To interface SIP networks with other networks',
+            'c) To compress audio data',
+            'd) To provide QoS feedback',
+          ],
+          correctAnswer: 'b) To interface SIP networks with other networks',
+        },
+        {
+          question: '24. How are SIP registrars typically deployed?',
+          options: [
+            'a) As standalone devices',
+            'b) Co-located with SIP proxies',
+            'c) Only with gateways',
+            'd) As softphones',
+          ],
+          correctAnswer: 'b) Co-located with SIP proxies',
+        },
+        {
+          question: '25. What can a proxy server do with a SIP request?',
+          options: [
+            'a) Delete it',
+            'b) Rewrite parts of it before forwarding',
+            'c) Store it permanently',
+            'd) Convert it to analog signals',
+          ],
+          correctAnswer: 'b) Rewrite parts of it before forwarding',
+        },
+        {
+          question: '26. What is a dedicated router in VoIP configurations?',
+          options: [
+            'a) A software application',
+            'b) A device allowing traditional phones to make VoIP calls',
+            'c) A network switch',
+            'd) A video streaming server',
+          ],
+          correctAnswer:
+            'b) A device allowing traditional phones to make VoIP calls',
+        },
+        {
+          question: '27. What is a characteristic of VoIP adapters?',
+          options: [
+            'a) They require a dedicated computer',
+            'b) They connect to a phone via a USB interface',
+            'c) They are only used for softphones',
+            'd) They cannot be used while traveling',
+          ],
+          correctAnswer: 'b) They connect to a phone via a USB interface',
+        },
+        {
+          question: '28. What is a softphone?',
+          options: [
+            'a) A hardware VoIP phone',
+            'b) A software application for VoIP calls',
+            'c) A network router',
+            'd) A dedicated server',
+          ],
+          correctAnswer: 'b) A software application for VoIP calls',
+        },
+        {
+          question:
+            '29. What is required for a dedicated VoIP phone to function?',
+          options: [
+            'a) A traditional phone line',
+            'b) A VoIP provider and service plan',
+            'c) A USB adapter',
+            'd) A softphone application',
+          ],
+          correctAnswer: 'b) A VoIP provider and service plan',
+        },
+        {
+          question:
+            '30. What components are typically needed for softphone VoIP calls?',
+          options: [
+            'a) A dedicated VoIP phone',
+            'b) A headset, microphone, and sound card',
+            'c) A traditional phone line',
+            'd) A network switch',
+          ],
+          correctAnswer: 'b) A headset, microphone, and sound card',
+        },
+        {
+          question:
+            '31. What does the scenario of VoIP to POTS with Internet involve?',
+          options: [
+            'a) Calls within a single VoIP network',
+            'b) Calls to traditional landlines via the Internet',
+            'c) Video streaming',
+            'd) File transfers',
+          ],
+          correctAnswer: 'b) Calls to traditional landlines via the Internet',
+        },
+        {
+          question:
+            '32. What is a benefit of merging VoIP with traditional telephone systems?',
+          options: [
+            'a) Increased complexity',
+            'b) Seamless call routing between systems',
+            'c) Higher latency',
+            'd) Reduced call quality',
+          ],
+          correctAnswer: 'b) Seamless call routing between systems',
+        },
+        {
+          question: '33. What is a key requirement for VoIP service?',
+          options: [
+            'a) A traditional phone line',
+            'b) A broadband Internet connection',
+            'c) A dedicated server',
+            'd) A video streaming service',
+          ],
+          correctAnswer: 'b) A broadband Internet connection',
+        },
+        {
+          question:
+            '34. Why might VoIP become unavailable during a power outage?',
+          options: [
+            'a) It uses analog signals',
+            'b) VoIP devices rely on a power source',
+            'c) It requires a dedicated phone line',
+            'd) It lacks QoS guarantees',
+          ],
+          correctAnswer: 'b) VoIP devices rely on a power source',
+        },
+        {
+          question:
+            '35. How can VoIP connectivity be maintained during a power outage?',
+          options: [
+            'a) By using a traditional phone line',
+            'b) By using an uninterruptible power supply (UPS)',
+            'c) By reducing call quality',
+            'd) By switching to a softphone',
+          ],
+          correctAnswer: 'b) By using an uninterruptible power supply (UPS)',
+        },
+        {
+          question: '36. What is Spam over Internet Telephony (SPIT)?',
+          options: [
+            'a) Encrypted VoIP calls',
+            'b) Commercial messages sent via VoIP',
+            'c) Video streaming spam',
+            'd) Network routing errors',
+          ],
+          correctAnswer: 'b) Commercial messages sent via VoIP',
+        },
+        {
+          question: '37. What is a risk associated with VoIP spoofing?',
+          options: [
+            'a) Improved call quality',
+            'b) Tricking users into disclosing personal information',
+            'c) Increased bandwidth',
+            'd) Reduced latency',
+          ],
+          correctAnswer:
+            'b) Tricking users into disclosing personal information',
+        },
+        {
+          question: '38. Why is VoIP confidentiality a concern?',
+          options: [
+            'a) Data is always encrypted',
+            'b) Unencrypted data can be collected and reconstructed',
+            'c) It requires dedicated hardware',
+            'd) It lacks QoS guarantees',
+          ],
+          correctAnswer:
+            'b) Unencrypted data can be collected and reconstructed',
+        },
+        {
+          question:
+            '39. What is a similarity between VoIP threats and other Internet applications?',
+          options: [
+            'a) Both are immune to spam',
+            'b) Both face spam and phishing risks',
+            'c) Both require dedicated servers',
+            'd) Both are always encrypted',
+          ],
+          correctAnswer: 'b) Both face spam and phishing risks',
+        },
+        {
+          question:
+            '40. What is a challenge related to VoIP Quality of Service (QoS)?',
+          options: [
+            'a) Guaranteed packet delivery',
+            'b) Lack of fundamental QoS guarantees in IP networks',
+            'c) Excessive bandwidth',
+            'd) Always sequential packet delivery',
+          ],
+          correctAnswer: 'b) Lack of fundamental QoS guarantees in IP networks',
+        },
+        {
+          question:
+            '41. Why is VoIP less reliable than the public telephone network?',
+          options: [
+            'a) It uses dedicated lines',
+            'b) It is a best-effort network without QoS guarantees',
+            'c) It requires analog signals',
+            'd) It has higher bandwidth',
+          ],
+          correctAnswer:
+            'b) It is a best-effort network without QoS guarantees',
+        },
+        {
+          question: '42. What is a potential consequence of VoIP spoofing?',
+          options: [
+            'a) Improved call routing',
+            'b) Identity theft',
+            'c) Increased call quality',
+            'd) Reduced latency',
+          ],
+          correctAnswer: 'b) Identity theft',
+        },
+        {
+          question: '43. What makes SPIT a challenge for VoIP users?',
+          options: [
+            'a) It improves call quality',
+            'b) It is fast and cheap for marketers',
+            'c) It requires dedicated hardware',
+            'd) It is always encrypted',
+          ],
+          correctAnswer: 'b) It is fast and cheap for marketers',
+        },
+      ]
+      const chapter5 = [
+        {
+          question: '1. What is the primary function of an Index Server?',
+          options: [
+            'A. To cache web content',
+            'B. To index and query document content',
+            'C. To perform load balancing',
+            'D. To encrypt network traffic',
+          ],
+          correctAnswer: 'B. To index and query document content',
+        },
+        {
+          question: '2. Index Server is built around:',
+          options: [
+            'A. Content Indexer (CI)',
+            'B. WebSphere Application Server',
+            'C. Apache mod_proxy',
+            'D. DNS resolver',
+          ],
+          correctAnswer: 'A. Content Indexer (CI)',
+        },
+        {
+          question: '3. What is a key feature of Index Server?',
+          options: [
+            'A. High resource overhead',
+            'B. Automatic detection and indexing of dynamic content',
+            'C. SSL acceleration',
+            'D. Content compression',
+          ],
+          correctAnswer:
+            'B. Automatic detection and indexing of dynamic content',
+        },
+        {
+          question: '4. How does Index Server handle web pages?',
+          options: [
+            'A. Partitions them across multiple servers',
+            'B. Compresses them for storage',
+            'C. Encrypts them for security',
+            'D. Localizes them for markets',
+          ],
+          correctAnswer: 'A. Partitions them across multiple servers',
+        },
+        {
+          question: '5. What is the role of the aggregator in Index Search?',
+          options: [
+            'A. Compresses queries',
+            'B. Coordinates query processing across index servers',
+            'C. Caches static content',
+            'D. Filters DNS queries',
+          ],
+          correctAnswer: 'B. Coordinates query processing across index servers',
+        },
+        {
+          question: '6. Content indexing involves:',
+          options: [
+            'A. Indexing the entire document',
+            'B. Indexing specific document properties or fields',
+            'C. Compressing document content',
+            'D. Encrypting document data',
+          ],
+          correctAnswer: 'B. Indexing specific document properties or fields',
+        },
+        {
+          question: '7. Full-text indexing differs from content indexing by:',
+          options: [
+            'A. Indexing only document properties',
+            'B. Indexing the entire document',
+            'C. Compressing the document',
+            'D. Localizing the document',
+          ],
+          correctAnswer: 'B. Indexing the entire document',
+        },
+        {
+          question: '8. Which query component defines the scope of the search?',
+          options: [
+            'A. Query restrictions',
+            'B. Result set',
+            'C. Query scope',
+            'D. Boolean operators',
+          ],
+          correctAnswer: 'C. Query scope',
+        },
+        {
+          question: '9. The NEAR operator in queries:',
+          options: [
+            'A. Matches exact phrases only',
+            'B. Ranks results based on word proximity',
+            'C. Filters content by file type',
+            'D. Compresses query results',
+          ],
+          correctAnswer: 'B. Ranks results based on word proximity',
+        },
+        {
+          question: '10. A free-text query searches for:',
+          options: [
+            'A. Exact phrases only',
+            'B. Similar meanings to the query text',
+            'C. Document properties',
+            'D. File sizes',
+          ],
+          correctAnswer: 'B. Similar meanings to the query text',
+        },
+        {
+          question:
+            '11. Which operator has higher precedence in Boolean queries?',
+          options: ['A. OR', 'B. AND', 'C. NOT', 'D. NEAR'],
+          correctAnswer: 'B. AND',
+        },
+        {
+          question: '12. A property-value query can search for:',
+          options: [
+            'A. Document content only',
+            'B. Document properties like file size',
+            'C. DNS records',
+            'D. Cached content',
+          ],
+          correctAnswer: 'B. Document properties like file size',
+        },
+        {
+          question: '13. Which wildcard matches any number of characters?',
+          options: [
+            'A. Question mark (?)',
+            'B. Asterisk (*)',
+            'C. Period (.)',
+            'D. Vertical bar (|)',
+          ],
+          correctAnswer: 'B. Asterisk (*)',
+        },
+        {
+          question: '14. Word stemming allows queries to match:',
+          options: [
+            'A. Exact words only',
+            'B. Words with the same stem',
+            'C. Document properties',
+            'D. File formats',
+          ],
+          correctAnswer: 'B. Words with the same stem',
+        },
+        {
+          question: '15. A relational query syntax includes:',
+          options: [
+            'A. Property name, operator, and value',
+            'B. Regular expression only',
+            'C. Boolean operators only',
+            'D. Proximity operators',
+          ],
+          correctAnswer: 'A. Property name, operator, and value',
+        },
+        {
+          question:
+            '16. Which operator matches zero or more occurrences in a regular expression?',
+          options: [
+            'A. Plus sign (+)',
+            'B. Asterisk (*)',
+            'C. Question mark (?)',
+            'D. Vertical bar (|)',
+          ],
+          correctAnswer: 'B. Asterisk (*)',
+        },
+        {
+          question: '17. The query "Barnes and Noble" will match:',
+          options: [
+            'A. Pages with both words separately',
+            'B. Pages with the exact phrase',
+            'C. Pages with either word',
+            'D. Pages with no matching words',
+          ],
+          correctAnswer: 'B. Pages with the exact phrase',
+        },
+        {
+          question: '18. Index Server supports indexing of:',
+          options: [
+            'A. HTML and Microsoft Office documents',
+            'B. DNS records',
+            'C. Cached web content',
+            'D. Encrypted files',
+          ],
+          correctAnswer: 'A. HTML and Microsoft Office documents',
+        },
+        {
+          question: '19. A proximity operator assigns higher ranking based on:',
+          options: [
+            'A. File size',
+            'B. Word proximity in the document',
+            'C. Document creation date',
+            'D. File format',
+          ],
+          correctAnswer: 'B. Word proximity in the document',
+        },
+        {
+          question: '20. Which query type uses the prefix $contents?',
+          options: [
+            'A. Relational query',
+            'B. Free-text query',
+            'C. Property-value query',
+            'D. Boolean query',
+          ],
+          correctAnswer: 'B. Free-text query',
+        },
+        {
+          question: '21. What does the relational operator ">=" signify?',
+          options: [
+            'A. Less than',
+            'B. Equal to',
+            'C. Greater than or equal to',
+            'D. Not equal to',
+          ],
+          correctAnswer: 'C. Greater than or equal to',
+        },
+        {
+          question: '22. A regular-expression query uses which prefix?',
+          options: ['A. @', 'B. #', 'C. $', 'D. &'],
+          correctAnswer: 'B. #',
+        },
+        {
+          question: '23. Full-text indexing is generally:',
+          options: [
+            'A. Faster than content indexing',
+            'B. Slower than content indexing',
+            'C. Equal in speed to content indexing',
+            'D. Not supported by Index Server',
+          ],
+          correctAnswer: 'B. Slower than content indexing',
+        },
+        {
+          question: '24. The caret (^) in a regular expression:',
+          options: [
+            'A. Matches any character',
+            'B. Matches everything except specified classes',
+            'C. Closes a character class',
+            'D. Matches a period',
+          ],
+          correctAnswer: 'B. Matches everything except specified classes',
+        },
+        {
+          question:
+            '25. Which operator is used to indicate an exact phrase in a query?',
+          options: ['A. AND', 'B. OR', 'C. Double quotes (")', 'D. NEAR'],
+          correctAnswer: 'C. Double quotes (")',
+        },
+        {
+          question: "26. Index Server's filters are used to:",
+          options: [
+            'A. Compress documents',
+            'B. Identify document structure or format',
+            'C. Cache web content',
+            'D. Encrypt queries',
+          ],
+          correctAnswer: 'B. Identify document structure or format',
+        },
+        {
+          question: '27. A free-text query searches for:',
+          options: [
+            'A. Exact matches only',
+            'B. Similar meanings to the query',
+            'C. Document properties',
+            'D. File sizes',
+          ],
+          correctAnswer: 'B. Similar meanings to the query',
+        },
+        {
+          question: '28. The Boolean operator NOT evaluates to:',
+          options: [
+            'A. TRUE if both terms are true',
+            'B. TRUE if the following term is false',
+            'C. TRUE if either term is true',
+            'D. FALSE if both terms are true',
+          ],
+          correctAnswer: 'B. TRUE if the following term is false',
+        },
+        {
+          question:
+            '29. Which character matches any single character in a regular expression?',
+          options: [
+            'A. Asterisk (*)',
+            'B. Period (.)',
+            'C. Question mark (?)',
+            'D. Vertical bar (|)',
+          ],
+          correctAnswer: 'C. Question mark (?)',
+        },
+        {
+          question: '30. The query @Write > 96/09/19 searches for:',
+          options: [
+            'A. Documents created before 96/09/19',
+            'B. Documents updated after 96/09/19',
+            'C. Documents with exact date 96/09/19',
+            'D. Documents with no date',
+          ],
+          correctAnswer: 'B. Documents updated after 96/09/19',
+        },
+        {
+          question: '31. Index Server supports which type of searches?',
+          options: [
+            'A. Wildcard searches',
+            'B. DNS searches',
+            'C. File compression searches',
+            'D. SSL searches',
+          ],
+          correctAnswer: 'A. Wildcard searches',
+        },
+        {
+          question: '32. The NEAR operator is represented by:',
+          options: ['A. &', 'B. |', 'C. ~', 'D. *'],
+          correctAnswer: 'C. ~',
+        },
+        {
+          question: '33. A property-value query can search for:',
+          options: [
+            'A. Document content only',
+            'B. Document creation time',
+            'C. DNS records',
+            'D. Cached content',
+          ],
+          correctAnswer: 'B. Document creation time',
+        },
+        {
+          question:
+            '34. Which operator matches one or more occurrences in a regular expression?',
+          options: [
+            'A. Asterisk (*)',
+            'B. Plus sign (+)',
+            'C. Question mark (?)',
+            'D. Vertical bar (|)',
+          ],
+          correctAnswer: 'B. Plus sign (+)',
+        },
+        {
+          question: '35. The query #filename * searches for:',
+          options: [
+            'A. All filenames',
+            'B. Specific filenames',
+            'C. File sizes',
+            'D. File formats',
+          ],
+          correctAnswer: 'A. All filenames',
+        },
+        {
+          question: '36. Word stemming matches words like:',
+          options: [
+            'A. Exact matches only',
+            'B. Words with the same stem',
+            'C. Document properties',
+            'D. File formats',
+          ],
+          correctAnswer: 'B. Words with the same stem',
+        },
+        {
+          question: '37. A relational query example is:',
+          options: [
+            'A. #filename *',
+            'B. @DocAuthor = Robert Swank',
+            'C. $contents Ethernet',
+            'D. fly**',
+          ],
+          correctAnswer: 'B. @DocAuthor = Robert Swank',
+        },
+        {
+          question: '38. The Boolean operator OR evaluates to:',
+          options: [
+            'A. TRUE if both terms are true',
+            'B. TRUE if either term is true',
+            'C. TRUE if the following term is false',
+            'D. FALSE if both terms are true',
+          ],
+          correctAnswer: 'B. TRUE if either term is true',
+        },
+        {
+          question: "39. Index Server's query engine can handle:",
+          options: [
+            'A. Linguistic stemming',
+            'B. DNS resolution',
+            'C. Content compression',
+            'D. SSL encryption',
+          ],
+          correctAnswer: 'A. Linguistic stemming',
+        },
+        {
+          question: '40. The dash (-) in a regular expression acts as:',
+          options: [
+            'A. A wildcard',
+            'B. A range operator',
+            'C. An escape character',
+            'D. A proximity operator',
+          ],
+          correctAnswer: 'B. A range operator',
+        },
+        {
+          question: '41. A content index search is generally:',
+          options: [
+            'A. Slower than full-text indexing',
+            'B. Faster than full-text indexing',
+            'C. Equal in speed to full-text indexing',
+            'D. Not supported by Index Server',
+          ],
+          correctAnswer: 'B. Faster than full-text indexing',
+        },
+        {
+          question: '42. The query $contents "Ethernet card" searches for:',
+          options: [
+            'A. Documents with either term',
+            'B. Documents with the exact phrase',
+            'C. Documents with no matching terms',
+            'D. Documents with properties only',
+          ],
+          correctAnswer: 'B. Documents with the exact phrase',
+        },
+        {
+          question:
+            '43. Which operator opens a character class in a regular expression?',
+          options: [
+            'A. Open parenthesis (()',
+            'B. Open bracket ([)',
+            'C. Open curly brace ({)',
+            'D. Vertical bar (|)',
+          ],
+          correctAnswer: 'B. Open bracket ([)',
+        },
+        {
+          question: '44. Index Server can index documents in:',
+          options: [
+            'A. Several languages',
+            'B. Only English',
+            'C. Only HTML',
+            'D. Only encrypted formats',
+          ],
+          correctAnswer: 'A. Several languages',
+        },
+        {
+          question: '45. The Boolean operator AND is equivalent to:',
+          options: ['A. |', 'B. &', 'C. ~', 'D. *'],
+          correctAnswer: 'B. &',
+        },
+        {
+          question: '46. A proximity operator differs from AND by:',
+          options: [
+            'A. Ignoring word proximity',
+            'B. Ranking based on word proximity',
+            'C. Matching exact phrases only',
+            'D. Filtering file types',
+          ],
+          correctAnswer: 'B. Ranking based on word proximity',
+        },
+        {
+          question: '47. The query @DocWordCount >= 2000 searches for:',
+          options: [
+            'A. Documents with fewer than 2000 words',
+            'B. Documents with 2000 or more words',
+            'C. Documents created in 2000',
+            'D. Documents with exact word count',
+          ],
+          correctAnswer: 'B. Documents with 2000 or more words',
+        },
+        {
+          question:
+            '48. Which character matches a period or end of string in a regular expression?',
+          options: [
+            'A. Asterisk (*)',
+            'B. Period (.)',
+            'C. Question mark (?)',
+            'D. Vertical bar (|)',
+          ],
+          correctAnswer: 'B. Period (.)',
+        },
+        {
+          question: "49. Index Server's query interface allows users to:",
+          options: [
+            'A. Compress documents',
+            'B. Narrow the result set',
+            'C. Encrypt queries',
+            'D. Cache content',
+          ],
+          correctAnswer: 'B. Narrow the result set',
+        },
+        {
+          question: '50. The vertical bar (|) in a regular expression acts as:',
+          options: [
+            'A. A wildcard',
+            'B. An escape character',
+            'C. A range operator',
+            'D. A proximity operator',
+          ],
+          correctAnswer: 'B. An escape character',
+        },
+        {
+          question: '51. A free-text query example is:',
+          options: [
+            'A. @Write > 96/09/19',
+            'B. #filename *',
+            'C. $contents How do I configure an Ethernet card?',
+            'D. @DocAuthor = Robert Swank',
+          ],
+          correctAnswer: 'C. $contents How do I configure an Ethernet card?',
+        },
+      ]
+      const chapter6 = [
+        {
+          question: '1. What is the primary function of a proxy server?',
+          options: [
+            'A. To act as an intermediary for requests from clients to other servers',
+            'B. To host web content directly',
+            'C. To manage database queries',
+            'D. To perform antivirus scanning',
+          ],
+          correctAnswer:
+            'A. To act as an intermediary for requests from clients to other servers',
+        },
+        {
+          question:
+            '2. Which type of proxy passes requests and responses without modification?',
+          options: [
+            'A. Reverse proxy',
+            'B. Forward proxy',
+            'C. Gateway or tunneling proxy',
+            'D. Dynamic proxy',
+          ],
+          correctAnswer: 'C. Gateway or tunneling proxy',
+        },
+        {
+          question: '3. A forward proxy is primarily used to:',
+          options: [
+            'A. Protect internal servers from external access',
+            'B. Retrieve data from a wide range of Internet sources',
+            'C. Cache static content for faster delivery',
+            'D. Localize websites for different markets',
+          ],
+          correctAnswer:
+            'B. Retrieve data from a wide range of Internet sources',
+        },
+        {
+          question:
+            '4. What distinguishes a reverse proxy from a forward proxy?',
+          options: [
+            'A. It retrieves data from any Internet source',
+            'B. It forwards requests from the Internet to internal servers',
+            'C. It modifies all requests and responses',
+            'D. It is always anonymous',
+          ],
+          correctAnswer:
+            'B. It forwards requests from the Internet to internal servers',
+        },
+        {
+          question: '5. An open proxy allows users to:',
+          options: [
+            'A. Cache dynamic content only',
+            'B. Hide their IP address while browsing',
+            'C. Host websites directly',
+            'D. Perform load balancing',
+          ],
+          correctAnswer: 'B. Hide their IP address while browsing',
+        },
+        {
+          question:
+            '6. Which of the following is a benefit of using a reverse proxy for SSL acceleration?',
+          options: [
+            'A. It increases client bandwidth usage',
+            'B. It offloads encryption tasks from the web server',
+            'C. It filters content for compliance',
+            'D. It creates dynamic proxy classes at runtime',
+          ],
+          correctAnswer: 'B. It offloads encryption tasks from the web server',
+        },
+        {
+          question:
+            '7. What is the purpose of "spoon feeding" in reverse proxies?',
+          options: [
+            'A. To compress dynamic content',
+            'B. To reduce resource usage by slow clients',
+            'C. To authenticate users',
+            'D. To localize website content',
+          ],
+          correctAnswer: 'B. To reduce resource usage by slow clients',
+        },
+        {
+          question:
+            '8. A caching proxy server primarily accelerates service requests by:',
+          options: [
+            'A. Modifying HTTP headers',
+            'B. Storing local copies of frequently requested resources',
+            'C. Encrypting all outgoing traffic',
+            'D. Routing traffic through a DNS server',
+          ],
+          correctAnswer:
+            'B. Storing local copies of frequently requested resources',
+        },
+        {
+          question:
+            '9. Which feature of a content-filtering proxy provides administrative control?',
+          options: [
+            'A. Load balancing',
+            'B. User authentication',
+            'C. Dynamic routing',
+            'D. SSL acceleration',
+          ],
+          correctAnswer: 'B. User authentication',
+        },
+        {
+          question: '10. A translation proxy is used to:',
+          options: [
+            'A. Cache static content',
+            'B. Localize website experiences for different markets',
+            'C. Perform DNS queries',
+            'D. Protect against OS-specific attacks',
+          ],
+          correctAnswer:
+            'B. Localize website experiences for different markets',
+        },
+        {
+          question: '11. What is a key feature of a DNS proxy?',
+          options: [
+            'A. It caches dynamic content',
+            'B. It forwards DNS queries to an Internet Domain Name Server',
+            'C. It compresses web content',
+            'D. It hosts web pages',
+          ],
+          correctAnswer:
+            'B. It forwards DNS queries to an Internet Domain Name Server',
+        },
+        {
+          question:
+            '12. Which proxy type is easier to use but offers low anonymity?',
+          options: [
+            'A. Transparent proxy',
+            'B. Suffix proxy',
+            'C. Reverse proxy',
+            'D. Open proxy',
+          ],
+          correctAnswer: 'B. Suffix proxy',
+        },
+        {
+          question: '13. A transparent proxy:',
+          options: [
+            'A. Modifies requests to add new headers',
+            'B. Does not modify requests beyond authentication',
+            'C. Creates dynamic proxy classes',
+            'D. Routes traffic to private networks',
+          ],
+          correctAnswer: 'B. Does not modify requests beyond authentication',
+        },
+        {
+          question: '14. What is a primary use of a suffix proxy?',
+          options: [
+            'A. Encrypting traffic',
+            'B. Bypassing web filters',
+            'C. Load balancing',
+            'D. Caching dynamic content',
+          ],
+          correctAnswer: 'B. Bypassing web filters',
+        },
+        {
+          question:
+            '15. Which server implementation supports reverse proxy functionality?',
+          options: [
+            'A. Apache with mod_proxy',
+            'B. Microsoft Word',
+            'C. Java.lang.reflect',
+            'D. DNS server',
+          ],
+          correctAnswer: 'A. Apache with mod_proxy',
+        },
+        {
+          question: '16. A reverse proxy can enhance security by:',
+          options: [
+            'A. Allowing unrestricted access to internal servers',
+            'B. Acting as an additional layer of defense',
+            'C. Modifying all HTTP responses',
+            'D. Hosting dynamic content',
+          ],
+          correctAnswer: 'B. Acting as an additional layer of defense',
+        },
+        {
+          question:
+            '17. What is a benefit of caching static content in a reverse proxy?',
+          options: [
+            'A. Increases server load',
+            'B. Offloads web servers',
+            'C. Encrypts dynamic content',
+            'D. Filters DNS queries',
+          ],
+          correctAnswer: 'B. Offloads web servers',
+        },
+        {
+          question: '18. A content-filtering proxy often produces:',
+          options: [
+            'A. Dynamic proxy classes',
+            'B. Logs for monitoring usage',
+            'C. Localized website content',
+            'D. SSL certificates',
+          ],
+          correctAnswer: 'B. Logs for monitoring usage',
+        },
+        {
+          question:
+            '19. Which proxy type is used to communicate with a firewalled internal server?',
+          options: [
+            'A. Forward proxy',
+            'B. Reverse proxy',
+            'C. Suffix proxy',
+            'D. Transparent proxy',
+          ],
+          correctAnswer: 'B. Reverse proxy',
+        },
+        {
+          question: '20. A dynamic proxy creates the proxy class:',
+          options: [
+            'A. At compile time',
+            'B. At runtime',
+            'C. During caching',
+            'D. During authentication',
+          ],
+          correctAnswer: 'B. At runtime',
+        },
+        {
+          question:
+            '21. Which of the following is NOT a common method for content filtering?',
+          options: [
+            'A. URL regex filtering',
+            'B. MIME filtering',
+            'C. DNS blacklists',
+            'D. SSL acceleration',
+          ],
+          correctAnswer: 'D. SSL acceleration',
+        },
+        {
+          question: '22. A web proxy primarily handles:',
+          options: [
+            'A. DNS queries',
+            'B. HTTP protocol requests',
+            'C. File system operations',
+            'D. Database transactions',
+          ],
+          correctAnswer: 'B. HTTP protocol requests',
+        },
+        {
+          question: '23. The Network Deployment server includes:',
+          options: [
+            'A. Dynamic routing and configuration',
+            'B. File compression',
+            'C. Database indexing',
+            'D. Antivirus scanning',
+          ],
+          correctAnswer: 'A. Dynamic routing and configuration',
+        },
+        {
+          question: '24. An anonymous open proxy:',
+          options: [
+            "A. Exposes the user's IP address",
+            "B. Hides the user's IP address",
+            'C. Caches all content',
+            'D. Performs load balancing',
+          ],
+          correctAnswer: "B. Hides the user's IP address",
+        },
+        {
+          question: '25. Which proxy type can optimize and compress content?',
+          options: [
+            'A. Forward proxy',
+            'B. Reverse proxy',
+            'C. Suffix proxy',
+            'D. DNS proxy',
+          ],
+          correctAnswer: 'B. Reverse proxy',
+        },
+        {
+          question: '26. A caching proxy reduces:',
+          options: [
+            'A. Server processing power',
+            'B. Upstream bandwidth usage',
+            'C. Client authentication time',
+            'D. DNS resolution time',
+          ],
+          correctAnswer: 'B. Upstream bandwidth usage',
+        },
+        {
+          question: '27. What is the role of a gateway proxy?',
+          options: [
+            'A. Modifies all requests',
+            'B. Passes requests unmodified',
+            'C. Localizes website content',
+            'D. Hosts web servers',
+          ],
+          correctAnswer: 'B. Passes requests unmodified',
+        },
+        {
+          question: '28. A reverse proxy is typically used to:',
+          options: [
+            'A. Retrieve data from any Internet source',
+            'B. Protect access to internal servers',
+            'C. Cache dynamic content only',
+            'D. Perform DNS queries',
+          ],
+          correctAnswer: 'B. Protect access to internal servers',
+        },
+        {
+          question:
+            '29. Which proxy type is commonly used in schools for content control?',
+          options: [
+            'A. Content-filtering proxy',
+            'B. Translation proxy',
+            'C. Suffix proxy',
+            'D. Dynamic proxy',
+          ],
+          correctAnswer: 'A. Content-filtering proxy',
+        },
+        {
+          question: '30. A non-transparent proxy:',
+          options: [
+            'A. Does not modify requests',
+            'B. Modifies requests or responses',
+            'C. Caches all content',
+            'D. Routes DNS queries',
+          ],
+          correctAnswer: 'B. Modifies requests or responses',
+        },
+        {
+          question:
+            '31. What is a key feature of the WebSphere Application Server proxy?',
+          options: [
+            'A. Dynamic routing',
+            'B. File compression',
+            'C. Database indexing',
+            'D. Content localization',
+          ],
+          correctAnswer: 'A. Dynamic routing',
+        },
+        {
+          question: '32. A reverse proxy can provide:',
+          options: [
+            'A. Extranet publishing',
+            'B. DNS query forwarding',
+            'C. Dynamic class creation',
+            'D. Client-side caching',
+          ],
+          correctAnswer: 'A. Extranet publishing',
+        },
+        {
+          question: '33. Which proxy type can reduce hardware costs?',
+          options: [
+            'A. Forward proxy',
+            'B. Caching proxy',
+            'C. Suffix proxy',
+            'D. Transparent proxy',
+          ],
+          correctAnswer: 'B. Caching proxy',
+        },
+        {
+          question: '34. A translation proxy routes traffic:',
+          options: [
+            'A. To a DNS server',
+            'B. To the source website for localization',
+            'C. To internal servers only',
+            'D. To cache servers',
+          ],
+          correctAnswer: 'B. To the source website for localization',
+        },
+        {
+          question: '35. What does a content-filtering proxy often support?',
+          options: [
+            'A. Load balancing',
+            'B. User authentication',
+            'C. Dynamic proxy creation',
+            'D. SSL encryption',
+          ],
+          correctAnswer: 'B. User authentication',
+        },
+        {
+          question: '36. A reverse proxy is also known as:',
+          options: [
+            'A. A gateway',
+            'B. A surrogate',
+            'C. A DNS proxy',
+            'D. A suffix proxy',
+          ],
+          correctAnswer: 'B. A surrogate',
+        },
+        {
+          question: '37. Which proxy type is used to eavesdrop on data flow?',
+          options: [
+            'A. Forward proxy',
+            'B. Reverse proxy',
+            'C. Logging proxy',
+            'D. Transparent proxy',
+          ],
+          correctAnswer: 'C. Logging proxy',
+        },
+        {
+          question: '38. A suffix proxy appends:',
+          options: [
+            'A. The proxy server name to the URL',
+            'B. SSL certificates to requests',
+            'C. Dynamic content to responses',
+            'D. DNS records to queries',
+          ],
+          correctAnswer: 'A. The proxy server name to the URL',
+        },
+        {
+          question: '39. A reverse proxy can cache:',
+          options: [
+            'A. Dynamic content only',
+            'B. Static content like images',
+            'C. DNS queries',
+            'D. Authentication tokens',
+          ],
+          correctAnswer: 'B. Static content like images',
+        },
+        {
+          question:
+            '40. What is a key advantage of caching proxies for large organizations?',
+          options: [
+            'A. Increased bandwidth usage',
+            'B. Reduced upstream bandwidth costs',
+            'C. Enhanced SSL encryption',
+            'D. Dynamic class creation',
+          ],
+          correctAnswer: 'B. Reduced upstream bandwidth costs',
+        },
+        {
+          question: '41. A forward proxy allows clients to:',
+          options: [
+            'A. Name the target server to connect to',
+            'B. Cache static content',
+            'C. Localize website content',
+            'D. Perform load balancing',
+          ],
+          correctAnswer: 'A. Name the target server to connect to',
+        },
+        {
+          question:
+            '42. Which proxy type can protect against specific OS attacks?',
+          options: [
+            'A. Forward proxy',
+            'B. Reverse proxy',
+            'C. Suffix proxy',
+            'D. DNS proxy',
+          ],
+          correctAnswer: 'B. Reverse proxy',
+        },
+        {
+          question: '43. A caching proxy was the:',
+          options: [
+            'A. First type of proxy server',
+            'B. Last type of proxy server',
+            'C. Only type used for DNS',
+            'D. Only type used for SSL',
+          ],
+          correctAnswer: 'A. First type of proxy server',
+        },
+        {
+          question: '44. A web proxy processes requests by:',
+          options: [
+            'A. Modifying all HTTP headers',
+            'B. Accepting target URLs in the browser',
+            'C. Caching all content',
+            'D. Performing DNS resolution',
+          ],
+          correctAnswer: 'B. Accepting target URLs in the browser',
+        },
+        {
+          question: '45. Which proxy type is used for extranet publishing?',
+          options: [
+            'A. Forward proxy',
+            'B. Reverse proxy',
+            'C. Suffix proxy',
+            'D. Transparent proxy',
+          ],
+          correctAnswer: 'B. Reverse proxy',
+        },
+        {
+          question: '46. A dynamic proxy is supported by which library?',
+          options: [
+            'A. Apache mod_proxy',
+            'B. Java.lang.reflect.Proxy',
+            'C. WebSphere Application Server',
+            'D. Microsoft IIS',
+          ],
+          correctAnswer: 'B. Java.lang.reflect.Proxy',
+        },
+        {
+          question: '47. What does a content-filtering proxy monitor?',
+          options: [
+            'A. DNS queries',
+            'B. Bandwidth usage statistics',
+            'C. Dynamic class creation',
+            'D. SSL certificate validity',
+          ],
+          correctAnswer: 'B. Bandwidth usage statistics',
+        },
+        {
+          question: '48. A reverse proxy can perform:',
+          options: [
+            'A. DNS resolution',
+            'B. Load balancing',
+            'C. File compression',
+            'D. Database indexing',
+          ],
+          correctAnswer: 'B. Load balancing',
+        },
+        {
+          question: '49. Which proxy type links two networks like a switch?',
+          options: [
+            'A. Forward proxy',
+            'B. Reverse proxy',
+            'C. Gateway proxy',
+            'D. Suffix proxy',
+          ],
+          correctAnswer: 'C. Gateway proxy',
+        },
+        {
+          question: '50. A translation proxy is primarily used for:',
+          options: [
+            'A. Caching static content',
+            'B. Localizing website experiences',
+            'C. Protecting internal servers',
+            'D. Forwarding DNS queries',
+          ],
+          correctAnswer: 'B. Localizing website experiences',
+        },
+        {
+          question:
+            '51. Which proxy type can significantly increase performance in large organizations?',
+          options: [
+            'A. Forward proxy',
+            'B. Caching proxy',
+            'C. Suffix proxy',
+            'D. Transparent proxy',
+          ],
+          correctAnswer: 'B. Caching proxy',
+        },
+      ]
+      const chapter3 = [
+        {
+          question:
+            '1. What is the primary function of a physical or hardware address?',
+          options: [
+            'A) To identify a computer on a Wide Area Network (WAN)',
+            'B) To uniquely identify a computer on a Local Area Network (LAN)',
+            'C) To assign a logical address to a network device',
+            'D) To route packets across the Internet',
+          ],
+          correctAnswer:
+            'B) To uniquely identify a computer on a Local Area Network (LAN)',
+        },
+        {
+          question:
+            '2. What is the length of a Media Access Control (MAC) address?',
+          options: ['A) 32 bits', 'B) 48 bits', 'C) 64 bits', 'D) 128 bits'],
+          correctAnswer: 'B) 48 bits',
+        },
+        {
+          question:
+            '3. Which of the following is an example of a logical or Internet Protocol (IP) address?',
+          options: [
+            'A) 00:20:73:06:D3:6A',
+            'B) 192.168.1.1',
+            'C) ABC3:56AC:7845:9078',
+            'D) 802.11',
+          ],
+          correctAnswer: 'B) 192.168.1.1',
+        },
+        {
+          question: '4. How many bytes does an IPv4 address consist of?',
+          options: ['A) 2 bytes', 'B) 4 bytes', 'C) 8 bytes', 'D) 16 bytes'],
+          correctAnswer: 'B) 4 bytes',
+        },
+        {
+          question:
+            '5. In the dotted-quad notation, what is the range of each number in an IPv4 address?',
+          options: [
+            'A) 0 to 127',
+            'B) 0 to 255',
+            'C) 0 to 511',
+            'D) 0 to 1023',
+          ],
+          correctAnswer: 'B) 0 to 255',
+        },
+        {
+          question:
+            '6. Which component of an IP address identifies the network a computer is connected to?',
+          options: ['A) Host ID', 'B) Network ID', 'C) MAC ID', 'D) Port ID'],
+          correctAnswer: 'B) Network ID',
+        },
+        {
+          question:
+            '7. What is the primary limitation of using MAC addresses on a Wide Area Network (WAN)?',
+          options: [
+            'A) They are too long',
+            'B) They are inefficient and cannot be used',
+            'C) They are not unique',
+            'D) They are only used for wireless networks',
+          ],
+          correctAnswer: 'B) They are inefficient and cannot be used',
+        },
+        {
+          question:
+            '8. Who assigns IP addresses to a computer during operating system installation?',
+          options: [
+            'A) The user',
+            'B) The network administrator',
+            'C) The Internet Service Provider',
+            'D) The hardware manufacturer',
+          ],
+          correctAnswer: 'B) The network administrator',
+        },
+        {
+          question:
+            '9. In Class A IP addressing, how many bits are used for the network ID?',
+          options: ['A) 8 bits', 'B) 16 bits', 'C) 24 bits', 'D) 32 bits'],
+          correctAnswer: 'A) 8 bits',
+        },
+        {
+          question:
+            '10. What is the range of network numbers for Class A addresses?',
+          options: [
+            'A) 1.0.0.0 to 127.255.255.255',
+            'B) 128.0.0.0 to 191.255.255.255',
+            'C) 192.0.0.0 to 223.255.255.255',
+            'D) 224.0.0.0 to 239.255.255.255',
+          ],
+          correctAnswer: 'A) 1.0.0.0 to 127.255.255.255',
+        },
+        {
+          question:
+            '11. How many hosts can be connected to a single Class A network?',
+          options: ['A) 254', 'B) 65,534', 'C) 16,777,214', 'D) 2,097,152'],
+          correctAnswer: 'C) 16,777,214',
+        },
+        {
+          question:
+            '12. In Class B IP addressing, what are the first two bits of the network ID set to?',
+          options: ['A) 0, 0', 'B) 1, 0', 'C) 1, 1', 'D) 1, 1, 0'],
+          correctAnswer: 'B) 1, 0',
+        },
+        {
+          question:
+            '13. What is the maximum number of Class B networks that can be set up?',
+          options: ['A) 27', 'B) 214', 'C) 221', 'D) 224'],
+          correctAnswer: 'B) 214',
+        },
+        {
+          question: '14. Which class of IP addresses is used for multicasting?',
+          options: ['A) Class A', 'B) Class B', 'C) Class C', 'D) Class D'],
+          correctAnswer: 'D) Class D',
+        },
+        {
+          question: '15. What is the purpose of Class E IP addresses?',
+          options: [
+            'A) General networking',
+            'B) Multicasting',
+            'C) Experimental purposes',
+            'D) Broadcasting',
+          ],
+          correctAnswer: 'C) Experimental purposes',
+        },
+        {
+          question:
+            '16. How many bits are used for the host ID in Class C IP addressing?',
+          options: ['A) 8 bits', 'B) 16 bits', 'C) 24 bits', 'D) 32 bits'],
+          correctAnswer: 'A) 8 bits',
+        },
+        {
+          question: '17. How many layers are there in the OSI reference model?',
+          options: ['A) 4', 'B) 5', 'C) 6', 'D) 7'],
+          correctAnswer: 'D) 7',
+        },
+        {
+          question:
+            '18. Which layer is referred to as Layer 7 in the OSI model?',
+          options: [
+            'A) Transport Layer',
+            'B) Network Layer',
+            'C) Application Layer',
+            'D) Physical Layer',
+          ],
+          correctAnswer: 'C) Application Layer',
+        },
+        {
+          question:
+            '19. How many layers does the TCP/IP reference model consist of?',
+          options: ['A) 4', 'B) 5', 'C) 6', 'D) 7'],
+          correctAnswer: 'A) 4',
+        },
+        {
+          question:
+            '20. Which of the following is NOT a layer in the TCP/IP model?',
+          options: [
+            'A) Application Layer',
+            'B) Session Layer',
+            'C) Internet Layer',
+            'D) Network Interface Layer',
+          ],
+          correctAnswer: 'B) Session Layer',
+        },
+        {
+          question:
+            "21. In the TCP/IP model, which layer corresponds to the OSI model's Physical and Data Link layers?",
+          options: [
+            'A) Application Layer',
+            'B) Transport Layer',
+            'C) Internet Layer',
+            'D) Network Interface Layer',
+          ],
+          correctAnswer: 'D) Network Interface Layer',
+        },
+        {
+          question:
+            '22. What is the primary function of the TCP protocol in the Transport Layer?',
+          options: [
+            'A) Routing packets across networks',
+            'B) Dividing data into packets and ensuring proper transmission',
+            'C) Assigning IP addresses',
+            'D) Encrypting data',
+          ],
+          correctAnswer:
+            'B) Dividing data into packets and ensuring proper transmission',
+        },
+        {
+          question:
+            '23. Which protocol in the Transport Layer is responsible for retransmitting data if an error occurs?',
+          options: ['A) UDP', 'B) ICMP', 'C) TCP', 'D) FTP'],
+          correctAnswer: 'C) TCP',
+        },
+        {
+          question:
+            '24. What is the role of the Internet Layer in the TCP/IP model?',
+          options: [
+            'A) Dividing data into frames',
+            'B) Routing packets from source to destination',
+            'C) Enabling user access to the network',
+            'D) Performing cyclic redundancy checks',
+          ],
+          correctAnswer: 'B) Routing packets from source to destination',
+        },
+        {
+          question:
+            '25. Which protocol generates error messages if there are problems in data transmission at the Internet Layer?',
+          options: ['A) TCP', 'B) UDP', 'C) ICMP', 'D) SMTP'],
+          correctAnswer: 'C) ICMP',
+        },
+        {
+          question:
+            '26. What is the responsibility of the Network Interface Layer in the TCP/IP model?',
+          options: [
+            'A) Routing packets across multiple networks',
+            'B) Dividing data into frames and ensuring proper reception',
+            'C) Providing user services like file transfer',
+            'D) Assigning logical addresses',
+          ],
+          correctAnswer:
+            'B) Dividing data into frames and ensuring proper reception',
+        },
+        {
+          question:
+            '27. Which method does the Network Interface Layer use to ensure frames are received properly?',
+          options: [
+            'A) Domain Name Resolution',
+            'B) Cyclic Redundancy Check (CRC)',
+            'C) Packet Segmentation',
+            'D) Address Translation',
+          ],
+          correctAnswer: 'B) Cyclic Redundancy Check (CRC)',
+        },
+        {
+          question:
+            '28. Which layer of the TCP/IP model is responsible for enabling users to access the network?',
+          options: [
+            'A) Network Interface Layer',
+            'B) Internet Layer',
+            'C) Transport Layer',
+            'D) Application Layer',
+          ],
+          correctAnswer: 'D) Application Layer',
+        },
+        {
+          question:
+            '29. What was the first TCP/IP network configuration tool used to automate IP address assignment?',
+          options: ['A) DHCP', 'B) BOOTP', 'C) NAT', 'D) DNS'],
+          correctAnswer: 'B) BOOTP',
+        },
+        {
+          question:
+            '30. What is the primary function of the Dynamic Host Configuration Protocol (DHCP)?',
+          options: [
+            'A) Translating domain names to IP addresses',
+            'B) Automatically assigning IP addresses to network computers',
+            'C) Routing packets across networks',
+            'D) Encrypting data transmissions',
+          ],
+          correctAnswer:
+            'B) Automatically assigning IP addresses to network computers',
+        },
+        {
+          question:
+            '31. Which type of IP address is manually assigned by an administrator or ISP?',
+          options: [
+            'A) Dynamic IP',
+            'B) Static IP',
+            'C) Unicast IP',
+            'D) Multicast IP',
+          ],
+          correctAnswer: 'B) Static IP',
+        },
+        {
+          question:
+            '32. What is a benefit of using dynamic IP addresses with DHCP?',
+          options: [
+            'A) They are permanent and never change',
+            'B) They reduce the administrative load of assigning addresses',
+            'C) They are only used for multicasting',
+            'D) They require manual configuration',
+          ],
+          correctAnswer:
+            'B) They reduce the administrative load of assigning addresses',
+        },
+        {
+          question:
+            '33. In most modern operating systems, which IP configuration is enabled by default?',
+          options: [
+            'A) Static IP',
+            'B) Dynamic IP',
+            'C) Multicast IP',
+            'D) Anycast IP',
+          ],
+          correctAnswer: 'B) Dynamic IP',
+        },
+        {
+          question: '34. What is the purpose of the Domain Name System (DNS)?',
+          options: [
+            'A) To assign IP addresses to computers',
+            'B) To coordinate IP addresses with domain names',
+            'C) To route packets across networks',
+            'D) To divide data into packets',
+          ],
+          correctAnswer: 'B) To coordinate IP addresses with domain names',
+        },
+        {
+          question:
+            '35. Which of the following is an example of a domain name?',
+          options: [
+            'A) 192.168.1.1',
+            'B) www.yahoo.com',
+            'C) 00:20:73:06:D3:6A',
+            'D) 255.255.255.255',
+          ],
+          correctAnswer: 'B) www.yahoo.com',
+        },
+        {
+          question:
+            '36. What does the last part of a domain name, such as .com or .edu, indicate?',
+          options: [
+            'A) The IP address',
+            'B) The type of organization',
+            'C) The network ID',
+            'D) The physical address',
+          ],
+          correctAnswer: 'B) The type of organization',
+        },
+        {
+          question: '37. Why was the Domain Name System (DNS) developed?',
+          options: [
+            'A) To make it easier to remember IP addresses',
+            'B) To assign static IP addresses',
+            'C) To route packets more efficiently',
+            'D) To secure network communications',
+          ],
+          correctAnswer: 'A) To make it easier to remember IP addresses',
+        },
+        {
+          question:
+            '38. What is the main purpose of Network Address Translation (NAT)?',
+          options: [
+            'A) To assign dynamic IP addresses',
+            'B) To connect a LAN to the Internet using one IP address',
+            'C) To translate domain names to IP addresses',
+            'D) To divide data into packets',
+          ],
+          correctAnswer:
+            'B) To connect a LAN to the Internet using one IP address',
+        },
+        {
+          question: '39. Which of the following is a benefit of NAT?',
+          options: [
+            'A) It permanently assigns IP addresses',
+            'B) It solves the shortage of IPv4 address space',
+            'C) It eliminates the need for routers',
+            'D) It increases network latency',
+          ],
+          correctAnswer: 'B) It solves the shortage of IPv4 address space',
+        },
+        {
+          question: '40. What is network masquerading in the context of NAT?',
+          options: [
+            'A) Assigning dynamic IP addresses',
+            "B) Hiding a network's address space behind a single IP address",
+            'C) Translating domain names to IP addresses',
+            'D) Dividing data into frames',
+          ],
+          correctAnswer:
+            "B) Hiding a network's address space behind a single IP address",
+        },
+        {
+          question: '41. How does NAT contribute to Internet security?',
+          options: [
+            'A) By encrypting all data transmissions',
+            'B) By hiding internal IP addresses from external access',
+            'C) By assigning unique IP addresses to all devices',
+            'D) By routing packets more efficiently',
+          ],
+          correctAnswer:
+            'B) By hiding internal IP addresses from external access',
+        },
+        {
+          question: '42. What is the bit length of an IPv6 address?',
+          options: ['A) 32 bits', 'B) 64 bits', 'C) 128 bits', 'D) 256 bits'],
+          correctAnswer: 'C) 128 bits',
+        },
+        {
+          question: '43. How many addresses can IPv6 support?',
+          options: ['A) 232', 'B) 264', 'C) 3.4×1038', 'D) 2256'],
+          correctAnswer: 'C) 3.4×1038',
+        },
+        {
+          question: '44. Which notation is used to represent IPv6 addresses?',
+          options: [
+            'A) Dotted-quad notation',
+            'B) Hexadecimal colon notation',
+            'C) Binary notation',
+            'D) Decimal notation',
+          ],
+          correctAnswer: 'B) Hexadecimal colon notation',
+        },
+        {
+          question:
+            '45. Which type of IPv6 address is used to send messages to a single computer?',
+          options: ['A) Multicast', 'B) Anycast', 'C) Unicast', 'D) Broadcast'],
+          correctAnswer: 'C) Unicast',
+        },
+        {
+          question: '46. What is the purpose of an anycast address in IPv6?',
+          options: [
+            'A) To send messages to all computers in a group',
+            'B) To send messages to any one computer in a group',
+            'C) To send messages to a single computer',
+            'D) To broadcast messages to all networks',
+          ],
+          correctAnswer: 'B) To send messages to any one computer in a group',
+        },
+        {
+          question:
+            '47. Which IPv6 address type transmits messages to all computers in a group?',
+          options: ['A) Unicast', 'B) Anycast', 'C) Multicast', 'D) Broadcast'],
+          correctAnswer: 'C) Multicast',
+        },
+        {
+          question:
+            '48. In IPv6 abbreviated notation, what can replace a group of zeros?',
+          options: [
+            'A) A single zero',
+            'B) A colon',
+            'C) A dash',
+            'D) A period',
+          ],
+          correctAnswer: 'B) A colon',
+        },
+        {
+          question:
+            '49. Which of the following is a valid abbreviated IPv6 address?',
+          options: [
+            'A) 2001:0DB8:AC10:FE01::5645::ABC4',
+            'B) 192.168.1.1',
+            'C) ABC3-56AC-7845-9078',
+            'D) 255.255.255.255',
+          ],
+          correctAnswer: 'A) 2001:0DB8:AC10:FE01::5645::ABC4',
+        },
+      ]
+      const chapter2 = [
+        {
+          question: '1. What is a network defined as?',
+          options: [
+            'a) A single computer connected to the Internet',
+            'b) A group of computers and devices connected by communication facilities',
+            'c) A software application for data transfer',
+            'd) A collection of servers only',
+          ],
+          correctAnswer:
+            'b) A group of computers and devices connected by communication facilities',
+        },
+        {
+          question: '2. What is a node in a network?',
+          options: [
+            'a) A protocol for data transfer',
+            'b) Any device connected to a network, such as a computer or printer',
+            'c) A type of cable',
+            'd) A central server',
+          ],
+          correctAnswer:
+            'b) Any device connected to a network, such as a computer or printer',
+        },
+        {
+          question: '3. What is the role of a client in a network?',
+          options: [
+            'a) To manage network security',
+            'b) To request and use resources from other nodes',
+            'c) To store all network data',
+            'd) To connect networks',
+          ],
+          correctAnswer: 'b) To request and use resources from other nodes',
+        },
+        {
+          question: '4. What is a directory server?',
+          options: [
+            'a) A server that connects networks',
+            'b) A server that manages resources like user accounts',
+            'c) A server that routes data packets',
+            'd) A server for wireless connections',
+          ],
+          correctAnswer:
+            'b) A server that manages resources like user accounts',
+        },
+        {
+          question: '5. What is the function of a switch in a network?',
+          options: [
+            'a) To convert analog to digital signals',
+            'b) To coordinate data flow by sending messages directly between nodes',
+            'c) To store network data',
+            'd) To encrypt network traffic',
+          ],
+          correctAnswer:
+            'b) To coordinate data flow by sending messages directly between nodes',
+        },
+        {
+          question:
+            '6. Which of the following is NOT an application of networks?',
+          options: [
+            'a) Resource sharing',
+            'b) Information sharing',
+            'c) Data encryption',
+            'd) Remote computing',
+          ],
+          correctAnswer: 'c) Data encryption',
+        },
+        {
+          question: '7. What does distributed processing in networks refer to?',
+          options: [
+            'a) Centralized data storage',
+            'b) Sharing computational tasks across multiple computers',
+            'c) Encrypting network data',
+            'd) Connecting to a single server',
+          ],
+          correctAnswer:
+            'b) Sharing computational tasks across multiple computers',
+        },
+        {
+          question:
+            '8. What are the two main categories of communication channels?',
+          options: [
+            'a) Wired and wireless',
+            'b) Analog and digital',
+            'c) Local and global',
+            'd) Secure and unsecured',
+          ],
+          correctAnswer: 'a) Wired and wireless',
+        },
+        {
+          question:
+            '9. Which of the following is a type of physical connection?',
+          options: [
+            'a) Bluetooth',
+            'b) Twisted-pair cable',
+            'c) Wi-Fi',
+            'd) Microwave',
+          ],
+          correctAnswer: 'b) Twisted-pair cable',
+        },
+        {
+          question: '10. What is a characteristic of fiber-optic cables?',
+          options: [
+            'a) They use copper wires to transmit data',
+            'b) They transmit data as pulses of light through glass',
+            'c) They are used for short-distance connections only',
+            'd) They are less secure than coaxial cables',
+          ],
+          correctAnswer:
+            'b) They transmit data as pulses of light through glass',
+        },
+        {
+          question:
+            '11. Which wireless connection technology is associated with GPS?',
+          options: ['a) Bluetooth', 'b) Wi-Fi', 'c) Satellite', 'd) Microwave'],
+          correctAnswer: 'c) Satellite',
+        },
+        {
+          question:
+            "12. What does the term 'uplink' refer to in wireless communication?",
+          options: [
+            'a) Receiving data from a satellite',
+            'b) Sending data to a satellite',
+            'c) Connecting two networks',
+            'd) Encrypting data packets',
+          ],
+          correctAnswer: 'b) Sending data to a satellite',
+        },
+        {
+          question: '13. What is the primary function of a modem?',
+          options: [
+            'a) To route data packets',
+            'b) To convert digital signals to analog and vice versa',
+            'c) To store network data',
+            'd) To connect LANs',
+          ],
+          correctAnswer:
+            'b) To convert digital signals to analog and vice versa',
+        },
+        {
+          question: '14. What does modulation mean in the context of a modem?',
+          options: [
+            'a) Converting analog signals to digital',
+            'b) Converting digital signals to analog',
+            'c) Encrypting network data',
+            'd) Routing data packets',
+          ],
+          correctAnswer: 'b) Converting digital signals to analog',
+        },
+        {
+          question: '15. Which unit measures the transfer rate of a modem?',
+          options: ['a) Watts', 'b) Bits per second', 'c) Volts', 'd) Hertz'],
+          correctAnswer: 'b) Bits per second',
+        },
+        {
+          question: '16. Which type of modem uses coaxial cables?',
+          options: [
+            'a) DSL modem',
+            'b) Cable modem',
+            'c) Wireless modem',
+            'd) Fiber-optic modem',
+          ],
+          correctAnswer: 'b) Cable modem',
+        },
+        {
+          question:
+            '17. Which connection service is NOT mentioned as a high-speed replacement for dial-up?',
+          options: [
+            'a) DSL',
+            'b) Cable service',
+            'c) Dial-up service',
+            'd) Fiber-optic service',
+          ],
+          correctAnswer: 'c) Dial-up service',
+        },
+        {
+          question: '18. What is the role of a network interface card (NIC)?',
+          options: [
+            'a) To convert analog to digital signals',
+            'b) To connect a computer to a network',
+            'c) To store network data',
+            'd) To route data packets',
+          ],
+          correctAnswer: 'b) To connect a computer to a network',
+        },
+        {
+          question: '19. What is a characteristic of a NIC?',
+          options: [
+            'a) It changes its hardware address frequently',
+            'b) It requires a unique hardware address',
+            'c) It is a software application',
+            'd) It connects dissimilar networks',
+          ],
+          correctAnswer: 'b) It requires a unique hardware address',
+        },
+        {
+          question: '20. What is the primary function of a repeater?',
+          options: [
+            'a) To connect dissimilar networks',
+            'b) To regenerate signals',
+            'c) To manage user accounts',
+            'd) To encrypt data',
+          ],
+          correctAnswer: 'b) To regenerate signals',
+        },
+        {
+          question: '21. What is a key difference between bridges and routers?',
+          options: [
+            'a) Bridges connect dissimilar networks, routers connect similar networks',
+            'b) Routers find the best path, bridges use a single path',
+            'c) Bridges are more complex than routers',
+            'd) Routers cannot handle multiple paths',
+          ],
+          correctAnswer:
+            'b) Routers find the best path, bridges use a single path',
+        },
+        {
+          question: '22. Why are bridges faster than routers?',
+          options: [
+            'a) They perform complex path selection',
+            'b) They do not perform complex functions like routers',
+            'c) They use multiple paths',
+            'd) They connect dissimilar networks',
+          ],
+          correctAnswer:
+            'b) They do not perform complex functions like routers',
+        },
+        {
+          question:
+            '23. What is a disadvantage of bridges compared to routers?',
+          options: [
+            'a) They are slower than routers',
+            'b) They cannot connect dissimilar network types',
+            'c) They replicate noise',
+            'd) They are more expensive',
+          ],
+          correctAnswer: 'b) They cannot connect dissimilar network types',
+        },
+        {
+          question: '24. What is the function of a gateway?',
+          options: [
+            'a) To regenerate signals',
+            'b) To convert data between different protocols',
+            'c) To connect similar networks',
+            'd) To amplify signals',
+          ],
+          correctAnswer: 'b) To convert data between different protocols',
+        },
+        {
+          question: '25. What distinguishes active hubs from passive hubs?',
+          options: [
+            'a) Passive hubs amplify signals',
+            'b) Active hubs amplify and clean signals',
+            'c) Active hubs are not powered',
+            'd) Passive hubs are remotely managed',
+          ],
+          correctAnswer: 'b) Active hubs amplify and clean signals',
+        },
+        {
+          question:
+            '26. Which of the following is a guided transmission medium?',
+          options: [
+            'a) Microwave',
+            'b) Twisted-pair cable',
+            'c) Infrared',
+            'd) WiMax',
+          ],
+          correctAnswer: 'b) Twisted-pair cable',
+        },
+        {
+          question:
+            '27. What is a characteristic of unshielded twisted pair (UTP) cables?',
+          options: [
+            'a) Used in Token Ring networks',
+            'b) Transmission rates up to 10000 Mbps',
+            'c) High resistance to interference',
+            'd) Used only for analog signals',
+          ],
+          correctAnswer: 'b) Transmission rates up to 10000 Mbps',
+        },
+        {
+          question: '28. Which coaxial cable type is more flexible?',
+          options: [
+            'a) Thicknet',
+            'b) Thinnet',
+            'c) Fiber-optic',
+            'd) Twisted-pair',
+          ],
+          correctAnswer: 'b) Thinnet',
+        },
+        {
+          question: '29. What is an advantage of fiber-optic cables?',
+          options: [
+            'a) High attenuation',
+            'b) Immunity to environmental interference',
+            'c) Low bandwidth',
+            'd) Easy to tap',
+          ],
+          correctAnswer: 'b) Immunity to environmental interference',
+        },
+        {
+          question:
+            '30. Which of the following is the fastest medium for data transfer?',
+          options: [
+            'a) Coaxial cable',
+            'b) Untwisted wire',
+            'c) Telephone lines',
+            'd) Fiber-optic cable',
+          ],
+          correctAnswer: 'd) Fiber-optic cable',
+        },
+        {
+          question:
+            '31. Which network type covers a small geographic area like an office?',
+          options: ['a) WAN', 'b) MAN', 'c) LAN', 'd) PAN'],
+          correctAnswer: 'c) LAN',
+        },
+        {
+          question: '32. What is a Metropolitan Area Network (MAN)?',
+          options: [
+            'a) A network covering a single building',
+            'b) A network encompassing a city or town',
+            'c) A global network',
+            'd) A personal device network',
+          ],
+          correctAnswer: 'b) A network encompassing a city or town',
+        },
+        {
+          question:
+            '33. Which of the following is an example of a Wide Area Network (WAN)?',
+          options: [
+            'a) A home network',
+            'b) A city-wide network',
+            'c) The Internet',
+            'd) A personal area network',
+          ],
+          correctAnswer: 'c) The Internet',
+        },
+        {
+          question: '34. What is a Personal Area Network (PAN)?',
+          options: [
+            'a) A network covering a city',
+            'b) A network for personal devices over a short distance',
+            'c) A global network',
+            'd) A network for office buildings',
+          ],
+          correctAnswer:
+            'b) A network for personal devices over a short distance',
+        },
+        {
+          question: '35. What does physical topology describe?',
+          options: [
+            'a) How data travels in a network',
+            'b) The physical structure of cables and devices',
+            'c) The protocol used for data transfer',
+            'd) The software managing the network',
+          ],
+          correctAnswer: 'b) The physical structure of cables and devices',
+        },
+        {
+          question:
+            '36. Which topology uses a single cable to connect all workstations?',
+          options: [
+            'a) Star topology',
+            'b) Ring topology',
+            'c) Bus topology',
+            'd) Mesh topology',
+          ],
+          correctAnswer: 'c) Bus topology',
+        },
+        {
+          question: '37. What is a disadvantage of bus topology?',
+          options: [
+            'a) Easy to install',
+            'b) If the cable breaks, all systems collapse',
+            'c) Less expensive',
+            'd) Requires less cabling',
+          ],
+          correctAnswer: 'b) If the cable breaks, all systems collapse',
+        },
+        {
+          question: '38. What is an advantage of star topology?',
+          options: [
+            'a) Difficult to reconfigure',
+            'b) Good fault tolerance',
+            'c) High cabling costs',
+            'd) Central device failure has no impact',
+          ],
+          correctAnswer: 'b) Good fault tolerance',
+        },
+        {
+          question:
+            '39. What happens in a ring topology if one device is removed?',
+          options: [
+            'a) The network continues to function',
+            'b) The network goes down',
+            'c) Data collisions increase',
+            'd) The network becomes faster',
+          ],
+          correctAnswer: 'b) The network goes down',
+        },
+        {
+          question: '40. What is a characteristic of mesh topology?',
+          options: [
+            'a) Requires minimal cabling',
+            'b) High privacy and security',
+            'c) Easy to install',
+            'd) Low cost',
+          ],
+          correctAnswer: 'b) High privacy and security',
+        },
+        {
+          question:
+            '41. How many simplex links are required for a mesh topology with 4 devices?',
+          options: ['a) 4', 'b) 6', 'c) 8', 'd) 12'],
+          correctAnswer: 'b) 6',
+        },
+        {
+          question: '42. What is a characteristic of a peer-to-peer network?',
+          options: [
+            'a) Centralized control by a server',
+            'b) Each computer is equal and self-sufficient',
+            'c) Requires a dedicated server',
+            'd) Used for large-scale networks',
+          ],
+          correctAnswer: 'b) Each computer is equal and self-sufficient',
+        },
+        {
+          question:
+            '43. What is the role of a server in a client-server network?',
+          options: [
+            'a) To request services',
+            'b) To provide services to clients',
+            'c) To connect dissimilar networks',
+            'd) To regenerate signals',
+          ],
+          correctAnswer: 'b) To provide services to clients',
+        },
+        {
+          question: '44. What is a feature of a server-based network?',
+          options: [
+            'a) Distributed services across multiple computers',
+            'b) Centralized security control',
+            'c) No dedicated server',
+            'd) Equal resource sharing',
+          ],
+          correctAnswer: 'b) Centralized security control',
+        },
+        {
+          question: '45. What is a protocol in networking?',
+          options: [
+            'a) A hardware device',
+            'b) A set of rules for data transmission',
+            'c) A type of cable',
+            'd) A network topology',
+          ],
+          correctAnswer: 'b) A set of rules for data transmission',
+        },
+        {
+          question: '46. What does the Domain Name Service (DNS) protocol do?',
+          options: [
+            'a) Transfers files between computers',
+            'b) Looks up IP addresses for domain names',
+            'c) Encrypts network traffic',
+            'd) Sends email',
+          ],
+          correctAnswer: 'b) Looks up IP addresses for domain names',
+        },
+        {
+          question: '47. Which protocol is used to transfer web documents?',
+          options: ['a) FTP', 'b) HTTP', 'c) SMTP', 'd) ICMP'],
+          correctAnswer: 'b) HTTP',
+        },
+        {
+          question: '48. What is a characteristic of HTTPS compared to HTTP?',
+          options: [
+            'a) It uses port 8080',
+            'b) It encrypts the information exchanged',
+            'c) It transfers files',
+            'd) It is slower than HTTP',
+          ],
+          correctAnswer: 'b) It encrypts the information exchanged',
+        },
+        {
+          question:
+            '49. Which protocol is used for error reporting in networks?',
+          options: ['a) ARP', 'b) ICMP', 'c) FTP', 'd) SMTP'],
+          correctAnswer: 'b) ICMP',
+        },
+        {
+          question: '50. What does the File Transfer Protocol (FTP) do?',
+          options: [
+            'a) Encrypts data',
+            'b) Transfers named files between computers',
+            'c) Manages email delivery',
+            'd) Resolves IP addresses',
+          ],
+          correctAnswer: 'b) Transfers named files between computers',
+        },
+        {
+          question:
+            '51. What is the purpose of the Address Resolution Protocol (ARP)?',
+          options: [
+            'a) To send email',
+            'b) To map IP addresses to MAC addresses',
+            'c) To stream audio and video',
+            'd) To manage user accounts',
+          ],
+          correctAnswer: 'b) To map IP addresses to MAC addresses',
+        },
+        {
+          question: '52. Which protocol is used for secure file transfer?',
+          options: ['a) FTP', 'b) SCP', 'c) HTTP', 'd) POP'],
+          correctAnswer: 'b) SCP',
+        },
+        {
+          question:
+            '53. What does the Internet Group Message Protocol (IGMP) support?',
+          options: [
+            'a) Email transfer',
+            'b) Multicasting',
+            'c) File encryption',
+            'd) IP address resolution',
+          ],
+          correctAnswer: 'b) Multicasting',
+        },
+        {
+          question:
+            '54. Which protocol keeps email on the server instead of copying it to the client?',
+          options: ['a) POP', 'b) SMTP', 'c) IMAP', 'd) NNTP'],
+          correctAnswer: 'c) IMAP',
+        },
+      ]
+      const chapter8 = [
+        {
+          question: '1. What is a key characteristic of real-time multimedia?',
+          options: [
+            'a) It has no timing constraints',
+            'b) It requires continuous playback with timing constraints',
+            'c) It is only used for text data',
+            'd) It does not involve compression',
+          ],
+          correctAnswer:
+            'b) It requires continuous playback with timing constraints',
+        },
+        {
+          question:
+            '2. What happens if video or audio data does not arrive in time during streaming?',
+          options: [
+            'a) The quality improves',
+            'b) The playback pauses, causing annoyance',
+            'c) The data is stored for later use',
+            'd) The stream switches to another format',
+          ],
+          correctAnswer: 'b) The playback pauses, causing annoyance',
+        },
+        {
+          question: '3. What is the first step in the streaming media process?',
+          options: [
+            'a) Packetizing the bit-stream',
+            'b) Compressing raw video/audio data',
+            'c) Sending packets to the Internet',
+            'd) Decoding at the receiver',
+          ],
+          correctAnswer: 'b) Compressing raw video/audio data',
+        },
+        {
+          question:
+            '4. What does the application-layer QoS control module do in streaming?',
+          options: [
+            'a) Compresses raw data',
+            'b) Adapts video/audio bit-streams based on network status',
+            'c) Decodes the received packets',
+            'd) Stores multimedia files',
+          ],
+          correctAnswer:
+            'b) Adapts video/audio bit-streams based on network status',
+        },
+        {
+          question:
+            '5. Why are media synchronization mechanisms required in streaming?',
+          options: [
+            'a) To compress data',
+            'b) To synchronize video and audio presentations',
+            'c) To store multimedia files',
+            'd) To encrypt data packets',
+          ],
+          correctAnswer: 'b) To synchronize video and audio presentations',
+        },
+        {
+          question: '6. What is the primary role of streaming servers?',
+          options: [
+            'a) To provide Internet access',
+            'b) To process multimedia data under timing constraints',
+            'c) To manage network security',
+            'd) To store text data',
+          ],
+          correctAnswer:
+            'b) To process multimedia data under timing constraints',
+        },
+        {
+          question:
+            '7. How many subsystems are typically found in a streaming server?',
+          options: ['a) Two', 'b) Three', 'c) Four', 'd) Five'],
+          correctAnswer: 'b) Three',
+        },
+        {
+          question:
+            '8. Which of the following is NOT a subsystem of a streaming server?',
+          options: [
+            'a) Communicator',
+            'b) Operating system',
+            'c) Storage system',
+            'd) Web browser',
+          ],
+          correctAnswer: 'd) Web browser',
+        },
+        {
+          question:
+            '9. What is the role of the communicator subsystem in a streaming server?',
+          options: [
+            'a) To manage file storage',
+            'b) To enable clients to retrieve multimedia content continuously',
+            'c) To compress raw data',
+            'd) To decode received packets',
+          ],
+          correctAnswer:
+            'b) To enable clients to retrieve multimedia content continuously',
+        },
+        {
+          question:
+            '10. What does the storage system in a streaming server support?',
+          options: [
+            'a) Continuous media storage and retrieval',
+            'b) Network routing',
+            'c) Data encryption',
+            'd) Web page hosting',
+          ],
+          correctAnswer: 'a) Continuous media storage and retrieval',
+        },
+        {
+          question:
+            '11. What does process management in a real-time operating system handle?',
+          options: [
+            'a) File storage',
+            'b) Mapping processes to the CPU resource',
+            'c) Network routing',
+            'd) Data compression',
+          ],
+          correctAnswer: 'b) Mapping processes to the CPU resource',
+        },
+        {
+          question:
+            '12. Which scheduling technique assigns tasks based on increasing deadlines?',
+          options: [
+            'a) Rate-monotonic scheduling',
+            'b) EDF scheduling',
+            'c) Static-priority scheduling',
+            'd) Round-robin scheduling',
+          ],
+          correctAnswer: 'b) EDF scheduling',
+        },
+        {
+          question:
+            '13. What is a characteristic of rate-monotonic scheduling?',
+          options: [
+            'a) It uses dynamic priorities',
+            'b) It assigns static priorities based on request rate',
+            'c) It is non-preemptive',
+            'd) It ignores deadlines',
+          ],
+          correctAnswer:
+            'b) It assigns static priorities based on request rate',
+        },
+        {
+          question:
+            '14. What is the main difference between EDF and rate-monotonic scheduling?',
+          options: [
+            'a) EDF uses multiple-priority queues, rate-monotonic uses one',
+            'b) Rate-monotonic is dynamic, EDF is static',
+            'c) EDF runs tasks with the earliest deadline, rate-monotonic uses static priorities',
+            'd) EDF is non-preemptive, rate-monotonic is preemptive',
+          ],
+          correctAnswer:
+            'c) EDF runs tasks with the earliest deadline, rate-monotonic uses static priorities',
+        },
+        {
+          question:
+            '15. What is the purpose of resource management in a multimedia server?',
+          options: [
+            'a) To compress data',
+            'b) To manage resources to meet timing requirements',
+            'c) To decode packets',
+            'd) To route network traffic',
+          ],
+          correctAnswer: 'b) To manage resources to meet timing requirements',
+        },
+        {
+          question:
+            '16. Which type of admission control provides hard guarantees to clients?',
+          options: [
+            'a) Statistical admission control',
+            'b) Deterministic admission control',
+            'c) Dynamic admission control',
+            'd) Random admission control',
+          ],
+          correctAnswer: 'b) Deterministic admission control',
+        },
+        {
+          question:
+            '17. What is an advantage of statistical admission control?',
+          options: [
+            'a) Strict assurance of quality',
+            'b) Simplicity',
+            'c) Higher utilization of server resources',
+            'd) Lower latency',
+          ],
+          correctAnswer: 'c) Higher utilization of server resources',
+        },
+        {
+          question:
+            '18. Which resource allocation scheme reserves resources for the worst case?',
+          options: [
+            'a) Statistical resource allocation',
+            'b) Deterministic resource allocation',
+            'c) Dynamic resource allocation',
+            'd) Random resource allocation',
+          ],
+          correctAnswer: 'b) Deterministic resource allocation',
+        },
+        {
+          question:
+            '19. How can disk throughput be improved in file management for streaming?',
+          options: [
+            'a) Using a single disk',
+            'b) Scattering files across multiple disks',
+            'c) Reducing buffer capacity',
+            'd) Using smaller files',
+          ],
+          correctAnswer: 'b) Scattering files across multiple disks',
+        },
+        {
+          question:
+            '20. What is a benefit of data striping in a storage system?',
+          options: [
+            'a) Reduced disk capacity',
+            'b) Parallel access to multimedia files',
+            'c) Increased latency',
+            'd) Lower fault tolerance',
+          ],
+          correctAnswer: 'b) Parallel access to multimedia files',
+        },
+        {
+          question:
+            '21. What is a key feature of a Storage Area Network (SAN)?',
+          options: [
+            'a) Low-speed data pipes',
+            'b) Many-to-many relationships between storage devices and hosts',
+            'c) Limited scalability',
+            'd) Runs only on Ethernet',
+          ],
+          correctAnswer:
+            'b) Many-to-many relationships between storage devices and hosts',
+        },
+        {
+          question:
+            '22. Which protocol is NOT typically used by Network Attached Storage (NAS)?',
+          options: ['a) HTTP', 'b) NFS', 'c) TCP', 'd) RTP'],
+          correctAnswer: 'd) RTP',
+        },
+        {
+          question:
+            '23. What is an advantage of both SAN and NAS over traditional storage?',
+          options: [
+            'a) Higher latency',
+            'b) Simplification of storage management',
+            'c) Lower scalability',
+            'd) Increased complexity',
+          ],
+          correctAnswer: 'b) Simplification of storage management',
+        },
+        {
+          question: '24. What is a trade-off in data striping schemes?',
+          options: [
+            'a) Load balance vs. high latency',
+            'b) Scalability vs. fault tolerance',
+            'c) Security vs. accessibility',
+            'd) Cost vs. reliability',
+          ],
+          correctAnswer: 'a) Load balance vs. high latency',
+        },
+        {
+          question: '25. What does media synchronization maintain?',
+          options: [
+            'a) Data compression ratios',
+            'b) Temporal relationships within and between media streams',
+            'c) Network bandwidth',
+            'd) File storage locations',
+          ],
+          correctAnswer:
+            'b) Temporal relationships within and between media streams',
+        },
+        {
+          question:
+            '26. Which level of synchronization involves a single data stream?',
+          options: [
+            'a) Inter-stream synchronization',
+            'b) Intra-stream synchronization',
+            'c) Inter-object synchronization',
+            'd) Network synchronization',
+          ],
+          correctAnswer: 'b) Intra-stream synchronization',
+        },
+        {
+          question:
+            '27. What is the objective of inter-object synchronization?',
+          options: [
+            'a) To compress multimedia files',
+            'b) To start/stop time-independent data within a tolerable interval',
+            'c) To route data packets',
+            'd) To encrypt media streams',
+          ],
+          correctAnswer:
+            'b) To start/stop time-independent data within a tolerable interval',
+        },
+        {
+          question: '28. What does inter-stream synchronization maintain?',
+          options: [
+            'a) Relationships between different continuous media',
+            'b) Timing within a single stream',
+            'c) Network addressing',
+            'd) File storage',
+          ],
+          correctAnswer: 'a) Relationships between different continuous media',
+        },
+        {
+          question:
+            '29. Which protocol category provides basic network addressing?',
+          options: [
+            'a) Transport protocol',
+            'b) Session control protocol',
+            'c) Network-layer protocol',
+            'd) Application-layer protocol',
+          ],
+          correctAnswer: 'c) Network-layer protocol',
+        },
+        {
+          question:
+            '30. Which protocol is designed to provide end-to-end transport for real-time applications?',
+          options: ['a) TCP', 'b) UDP', 'c) RTP', 'd) SIP'],
+          correctAnswer: 'c) RTP',
+        },
+        {
+          question: '31. What is the role of RTCP in streaming?',
+          options: [
+            'a) Data transfer',
+            'b) Providing QoS feedback',
+            'c) Session initiation',
+            'd) Network addressing',
+          ],
+          correctAnswer: 'b) Providing QoS feedback',
+        },
+        {
+          question:
+            '32. Which RTP function helps synchronize different media streams?',
+          options: [
+            'a) Sequence numbering',
+            'b) Time-stamping',
+            'c) Payload type identification',
+            'd) Source identification',
+          ],
+          correctAnswer: 'b) Time-stamping',
+        },
+        {
+          question: '33. What does the RTCP SDES packet contain?',
+          options: [
+            'a) Network addresses',
+            'b) Textual information for participant identification',
+            'c) Compressed video data',
+            'd) Encryption keys',
+          ],
+          correctAnswer:
+            'b) Textual information for participant identification',
+        },
+        {
+          question:
+            '34. Which protocol allows clients to request a presentation description?',
+          options: ['a) RTP', 'b) RTCP', 'c) RTSP', 'd) TCP'],
+          correctAnswer: 'c) RTSP',
+        },
+        {
+          question: '35. Why is TCP less suitable for streaming applications?',
+          options: [
+            'a) It lacks checksums',
+            'b) Its retransmission introduces unacceptable delays',
+            'c) It cannot multiplex streams',
+            'd) It does not support QoS',
+          ],
+          correctAnswer: 'b) Its retransmission introduces unacceptable delays',
+        },
+        {
+          question:
+            '36. What is a major challenge in video streaming related to bandwidth?',
+          options: [
+            'a) Encrypting data streams',
+            'b) Accurately estimating available bandwidth',
+            'c) Reducing file sizes',
+            'd) Increasing latency',
+          ],
+          correctAnswer: 'b) Accurately estimating available bandwidth',
+        },
+        {
+          question:
+            '37. What problem does delay jitter cause in video streaming?',
+          options: [
+            'a) Improved video quality',
+            'b) Late frames causing playback issues',
+            'c) Increased bandwidth',
+            'd) Reduced latency',
+          ],
+          correctAnswer: 'b) Late frames causing playback issues',
+        },
+        {
+          question: '38. How is delay jitter typically addressed?',
+          options: [
+            'a) By reducing bandwidth',
+            'b) By using a playout buffer at the receiver',
+            'c) By increasing packet size',
+            'd) By encrypting data',
+          ],
+          correctAnswer: 'b) By using a playout buffer at the receiver',
+        },
+        {
+          question:
+            '39. Which error control approach involves adding redundant data to packets?',
+          options: [
+            'a) Retransmissions',
+            'b) Error concealment',
+            'c) Forward error correction (FEC)',
+            'd) Error-resilient video coding',
+          ],
+          correctAnswer: 'c) Forward error correction (FEC)',
+        },
+        {
+          question: '40. What is a disadvantage of using a playout buffer?',
+          options: [
+            'a) It reduces video quality',
+            'b) It introduces additional delay',
+            'c) It increases packet loss',
+            'd) It decreases bandwidth',
+          ],
+          correctAnswer: 'b) It introduces additional delay',
+        },
+        {
+          question:
+            '41. Which error control method hides the effects of packet loss?',
+          options: [
+            'a) Forward error correction',
+            'b) Retransmissions',
+            'c) Error concealment',
+            'd) Error-resilient video coding',
+          ],
+          correctAnswer: 'c) Error concealment',
+        },
+        {
+          question: '42. What is a challenge in multicast video streaming?',
+          options: [
+            'a) Encrypting all streams',
+            'b) Matching video to different bandwidths of multiple receivers',
+            'c) Reducing file compression',
+            'd) Increasing latency',
+          ],
+          correctAnswer:
+            'b) Matching video to different bandwidths of multiple receivers',
+        },
+        {
+          question: '43. Why are losses destructive in video streaming?',
+          options: [
+            'a) They increase bandwidth',
+            'b) They degrade reconstructed video quality',
+            'c) They reduce latency',
+            'd) They simplify decoding',
+          ],
+          correctAnswer: 'b) They degrade reconstructed video quality',
+        },
+      ]
+      const chapter4 = [
+        {
+          question:
+            "1. What does the term 'wireless' refer to in the context of communications?",
+          options: [
+            'A) Communications using physical cables',
+            'B) Communications sent without wires or cables',
+            'C) Communications using optical fibers',
+            'D) Communications using coaxial cables',
+          ],
+          correctAnswer: 'B) Communications sent without wires or cables',
+        },
+        {
+          question:
+            '2. Which characteristic of wireless communication increases productivity and flexibility?',
+          options: [
+            'A) Scalability',
+            'B) Installation',
+            'C) Mobility and Reachability',
+            'D) Security',
+          ],
+          correctAnswer: 'C) Mobility and Reachability',
+        },
+        {
+          question:
+            '3. What is a benefit of wireless communication in terms of installation?',
+          options: [
+            'A) Requires extensive cabling',
+            'B) Fast and easy with no cables needed',
+            'C) Limited to fixed locations',
+            'D) High maintenance costs',
+          ],
+          correctAnswer: 'B) Fast and easy with no cables needed',
+        },
+        {
+          question: '4. How does wireless communication support scalability?',
+          options: [
+            'A) By limiting the number of users',
+            'B) By configuring different topologies for various applications',
+            'C) By requiring fixed infrastructure',
+            'D) By reducing network range',
+          ],
+          correctAnswer:
+            'B) By configuring different topologies for various applications',
+        },
+        {
+          question:
+            '5. What is the purpose of roaming services in wireless communication?',
+          options: [
+            'A) To restrict access to specific locations',
+            'B) To provide services anywhere, anytime',
+            'C) To limit network scalability',
+            'D) To increase installation costs',
+          ],
+          correctAnswer: 'B) To provide services anywhere, anytime',
+        },
+        {
+          question:
+            '6. What is the role of the Wireless Application Protocol (WAP)?',
+          options: [
+            'A) To encrypt wireless communications',
+            'B) To enable wireless devices to access web-based information',
+            'C) To assign IP addresses to wireless devices',
+            'D) To route packets across networks',
+          ],
+          correctAnswer:
+            'B) To enable wireless devices to access web-based information',
+        },
+        {
+          question: '7. What is a characteristic of WAP-compliant devices?',
+          options: [
+            'A) They require large screens',
+            'B) They contain micro browsers for small screens',
+            'C) They only work on high-bandwidth networks',
+            'D) They cannot access the Internet',
+          ],
+          correctAnswer: 'B) They contain micro browsers for small screens',
+        },
+        {
+          question: '8. What are wireless transmission media referred to as?',
+          options: [
+            'A) Guided media',
+            'B) Unguided media',
+            'C) Physical conductors',
+            'D) Optical fibers',
+          ],
+          correctAnswer: 'B) Unguided media',
+        },
+        {
+          question: '9. How are signals transmitted in wireless communication?',
+          options: [
+            'A) Through physical cables',
+            'B) Through free space',
+            'C) Through optical fibers',
+            'D) Through coaxial cables',
+          ],
+          correctAnswer: 'B) Through free space',
+        },
+        {
+          question:
+            '10. Which type of device can receive wireless communication signals?',
+          options: [
+            'A) Any device with a physical cable',
+            'B) Any device capable of receiving electromagnetic waves',
+            'C) Only devices with optical sensors',
+            'D) Only devices with coaxial connectors',
+          ],
+          correctAnswer:
+            'B) Any device capable of receiving electromagnetic waves',
+        },
+        {
+          question:
+            '11. In ground propagation, how do low-frequency radio waves travel?',
+          options: [
+            'A) In straight lines from antenna to antenna',
+            'B) Upward into the ionosphere',
+            'C) Following the curvature of the planet',
+            'D) Through physical conductors',
+          ],
+          correctAnswer: 'C) Following the curvature of the planet',
+        },
+        {
+          question: '12. What is a characteristic of sky propagation?',
+          options: [
+            'A) Uses low-frequency waves',
+            'B) Waves are reflected back to Earth by the ionosphere',
+            'C) Requires directional antennas',
+            'D) Limited to short distances',
+          ],
+          correctAnswer:
+            'B) Waves are reflected back to Earth by the ionosphere',
+        },
+        {
+          question: '13. What is required for line-of-sight propagation?',
+          options: [
+            'A) Omnidirectional antennas',
+            'B) Directional antennas facing each other',
+            'C) Low-frequency signals',
+            'D) Reflection by the ionosphere',
+          ],
+          correctAnswer: 'B) Directional antennas facing each other',
+        },
+        {
+          question:
+            '14. What is the frequency range of radio waves used in wireless transmission?',
+          options: [
+            'A) 3 kHz to 1 GHz',
+            'B) 1 GHz to 40 GHz',
+            'C) 300 GHz to 400 THz',
+            'D) 3 MHz to 30 MHz',
+          ],
+          correctAnswer: 'A) 3 kHz to 1 GHz',
+        },
+        {
+          question:
+            '15. Which type of antenna radiates signals in all directions?',
+          options: [
+            'A) Yagi antenna',
+            'B) Parabolic antenna',
+            'C) Omnidirectional antenna',
+            'D) Dipole antenna',
+          ],
+          correctAnswer: 'C) Omnidirectional antenna',
+        },
+        {
+          question:
+            '16. Why are radio waves suitable for indoor and outdoor communication?',
+          options: [
+            'A) They cannot penetrate buildings',
+            'B) They can penetrate buildings easily',
+            'C) They require line-of-sight',
+            'D) They are limited to short distances',
+          ],
+          correctAnswer: 'B) They can penetrate buildings easily',
+        },
+        {
+          question:
+            '17. What is the frequency range of microwaves used in wireless transmission?',
+          options: [
+            'A) 3 kHz to 1 GHz',
+            'B) 1 GHz to 300 GHz',
+            'C) 300 GHz to 400 THz',
+            'D) 3 MHz to 30 MHz',
+          ],
+          correctAnswer: 'B) 1 GHz to 300 GHz',
+        },
+        {
+          question:
+            '18. What type of antenna is used in terrestrial microwave transmission?',
+          options: [
+            'A) Omnidirectional antenna',
+            'B) Parabolic dish antenna',
+            'C) Dipole antenna',
+            'D) Yagi antenna',
+          ],
+          correctAnswer: 'B) Parabolic dish antenna',
+        },
+        {
+          question:
+            '19. Why are repeaters needed in terrestrial microwave transmission?',
+          options: [
+            'A) To increase signal strength',
+            'B) To overcome the curvature of the Earth and obstacles',
+            'C) To reduce installation costs',
+            'D) To encrypt signals',
+          ],
+          correctAnswer:
+            'B) To overcome the curvature of the Earth and obstacles',
+        },
+        {
+          question:
+            '20. What is a common application of terrestrial microwave transmission?',
+          options: [
+            'A) Short-range device communication',
+            'B) Voice and television transmission',
+            'C) Indoor networking',
+            'D) Remote control devices',
+          ],
+          correctAnswer: 'B) Voice and television transmission',
+        },
+        {
+          question:
+            '21. In satellite microwave transmission, what is the role of the satellite?',
+          options: [
+            'A) To assign IP addresses',
+            'B) To act as a relay station linking earth stations',
+            'C) To encrypt data transmissions',
+            'D) To divide data into packets',
+          ],
+          correctAnswer: 'B) To act as a relay station linking earth stations',
+        },
+        {
+          question:
+            '22. At what height are geosynchronous orbit (GEO) satellites placed?',
+          options: [
+            'A) 500 miles',
+            'B) 22,300 miles',
+            'C) 35,863 km',
+            'D) 100 km',
+          ],
+          correctAnswer: 'C) 35,863 km',
+        },
+        {
+          question:
+            '23. What is a common application of satellite microwave transmission?',
+          options: [
+            'A) Short-range device communication',
+            'B) Television distribution',
+            'C) Indoor networking',
+            'D) Remote control devices',
+          ],
+          correctAnswer: 'B) Television distribution',
+        },
+        {
+          question:
+            '24. What is the typical propagation delay in satellite microwave transmission?',
+          options: [
+            'A) 1 second',
+            'B) 1/4 second',
+            'C) 1 millisecond',
+            'D) 1 minute',
+          ],
+          correctAnswer: 'B) 1/4 second',
+        },
+        {
+          question:
+            '25. Which air interface technique divides the frequency spectrum into smaller bands?',
+          options: ['A) TDMA', 'B) CDMA', 'C) FDMA', 'D) WAP'],
+          correctAnswer: 'C) FDMA',
+        },
+        {
+          question:
+            '26. In TDMA, how is the radio spectrum shared among users?',
+          options: [
+            'A) By dividing the frequency into bands',
+            'B) By dividing time into slots',
+            'C) By using distinct chipping sequences',
+            'D) By encrypting signals',
+          ],
+          correctAnswer: 'B) By dividing time into slots',
+        },
+        {
+          question: '27. What is the key feature of CDMA?',
+          options: [
+            'A) Divides the frequency spectrum',
+            'B) Divides time into slots',
+            'C) Uses distinct chipping sequences for each user',
+            'D) Requires line-of-sight transmission',
+          ],
+          correctAnswer: 'C) Uses distinct chipping sequences for each user',
+        },
+        {
+          question:
+            '28. How does CDMA allow multiple users to share the same frequency spectrum?',
+          options: [
+            'A) By assigning different time slots',
+            'B) By encoding data with unique chipping sequences',
+            'C) By dividing the frequency into bands',
+            'D) By using omnidirectional antennas',
+          ],
+          correctAnswer: 'B) By encoding data with unique chipping sequences',
+        },
+        {
+          question: '29. What is an example of an FDMA channel allocation?',
+          options: [
+            'A) 20 to 24 kHz for Channel 1',
+            'B) 0 to 0.2 seconds for Channel 1',
+            'C) Unique chipping sequence for Channel 1',
+            'D) Line-of-sight transmission for Channel 1',
+          ],
+          correctAnswer: 'A) 20 to 24 kHz for Channel 1',
+        },
+        {
+          question: '30. What is the maximum data rate of Bluetooth 2.0?',
+          options: ['A) 1 Mbps', 'B) 2.1 Mbps', 'C) 54 Mbps', 'D) 1 Gbps'],
+          correctAnswer: 'B) 2.1 Mbps',
+        },
+        {
+          question: '31. In which frequency band does Bluetooth operate?',
+          options: [
+            'A) 2.4 GHz to 2.4835 GHz',
+            'B) 5 GHz to 6 GHz',
+            'C) 1 GHz to 40 GHz',
+            'D) 300 GHz to 400 THz',
+          ],
+          correctAnswer: 'A) 2.4 GHz to 2.4835 GHz',
+        },
+        {
+          question: '32. What is a Bluetooth piconet?',
+          options: [
+            'A) A wired network of devices',
+            'B) A network of up to 8 active Bluetooth devices',
+            'C) A satellite-based network',
+            'D) A long-range wireless network',
+          ],
+          correctAnswer: 'B) A network of up to 8 active Bluetooth devices',
+        },
+        {
+          question: '33. What is the typical range of a Bluetooth piconet?',
+          options: ['A) 100 meters', 'B) 10 meters', 'C) 1 km', 'D) 35,863 km'],
+          correctAnswer: 'B) 10 meters',
+        },
+        {
+          question:
+            '34. Which device acts as the master in a Bluetooth piconet?',
+          options: [
+            'A) The last device to join',
+            'B) The first device in the piconet',
+            'C) All devices share control',
+            'D) The device with the highest power',
+          ],
+          correctAnswer: 'B) The first device in the piconet',
+        },
+        {
+          question: '35. What does WLAN stand for?',
+          options: [
+            'A) Wireless Local Area Network',
+            'B) Wired Local Area Network',
+            'C) Wireless Wide Area Network',
+            'D) Wired Wide Area Network',
+          ],
+          correctAnswer: 'A) Wireless Local Area Network',
+        },
+        {
+          question:
+            '36. What device is used to connect wireless devices to a wired network in a WLAN?',
+          options: ['A) Router', 'B) Access Point (AP)', 'C) Switch', 'D) Hub'],
+          correctAnswer: 'B) Access Point (AP)',
+        },
+        {
+          question: '37. How does a WLAN typically extend an existing network?',
+          options: [
+            'A) By replacing the wired network',
+            'B) By using radio signals instead of cabling',
+            'C) By using optical fibers',
+            'D) By requiring manual IP assignment',
+          ],
+          correctAnswer: 'B) By using radio signals instead of cabling',
+        },
+        {
+          question: '38. What is the role of a wireless router in a WLAN?',
+          options: [
+            'A) To assign IP addresses',
+            'B) To control the flow of packets on the wireless network',
+            'C) To encrypt all data',
+            'D) To divide data into frames',
+          ],
+          correctAnswer:
+            'B) To control the flow of packets on the wireless network',
+        },
+        {
+          question:
+            '39. What happens when multiple Wireless Access Points are used in a WLAN?',
+          options: [
+            'A) Devices connect to the weakest signal',
+            'B) Devices automatically connect to the strongest signal',
+            'C) Devices require manual selection',
+            'D) Devices cannot roam',
+          ],
+          correctAnswer:
+            'B) Devices automatically connect to the strongest signal',
+        },
+        {
+          question:
+            '40. What is a characteristic of an infrastructure wireless network?',
+          options: [
+            'A) It is a peer-to-peer network without centralized control',
+            'B) It connects to a wired LAN through an access point',
+            'C) It is used only for temporary situations',
+            'D) It does not support roaming',
+          ],
+          correctAnswer:
+            'B) It connects to a wired LAN through an access point',
+        },
+        {
+          question: '41. What is the purpose of an ad-hoc wireless network?',
+          options: [
+            'A) To connect to a wired LAN',
+            'B) To create a self-organizing network without centralized control',
+            'C) To provide long-range communication',
+            'D) To replace satellite communication',
+          ],
+          correctAnswer:
+            'B) To create a self-organizing network without centralized control',
+        },
+        {
+          question:
+            '42. In which situation is an ad-hoc network most suitable?',
+          options: [
+            'A) Permanent office networking',
+            'B) Temporary situations like meetings',
+            'C) Long-distance communication',
+            'D) Satellite-based communication',
+          ],
+          correctAnswer: 'B) Temporary situations like meetings',
+        },
+        {
+          question: '43. How do devices communicate in an ad-hoc network?',
+          options: [
+            'A) Through a centralized access point',
+            'B) Directly in a peer-to-peer manner',
+            'C) Through a satellite',
+            'D) Through a wired router',
+          ],
+          correctAnswer: 'B) Directly in a peer-to-peer manner',
+        },
+        {
+          question: '44. What is a common use case for ad-hoc networks?',
+          options: [
+            'A) Permanent corporate networks',
+            'B) Data collection in remote areas',
+            'C) Satellite communication',
+            'D) Long-distance telephone transmission',
+          ],
+          correctAnswer: 'B) Data collection in remote areas',
+        },
+        {
+          question:
+            '45. Which cellular generation uses analog signals to carry voice?',
+          options: ['A) 1G', 'B) 2G', 'C) 3G', 'D) 4G'],
+          correctAnswer: 'A) 1G',
+        },
+        {
+          question:
+            '46. What is the main distinction between 1G and 2G cellular systems?',
+          options: [
+            'A) 2G uses analog signals',
+            'B) 2G uses digital signals',
+            'C) 2G supports video streaming',
+            'D) 2G requires satellite communication',
+          ],
+          correctAnswer: 'B) 2G uses digital signals',
+        },
+        {
+          question: '47. What is a key feature of 3G cellular systems?',
+          options: [
+            'A) Analog voice transmission',
+            'B) Higher-speed data services',
+            'C) Limited to voice services',
+            'D) Uses omnidirectional antennas',
+          ],
+          correctAnswer: 'B) Higher-speed data services',
+        },
+        {
+          question: '48. What does 4G focus on supporting?',
+          options: [
+            'A) Analog voice services',
+            'B) Real-time multimedia like high-speed video',
+            'C) Low-speed data services',
+            'D) Infrared communication',
+          ],
+          correctAnswer: 'B) Real-time multimedia like high-speed video',
+        },
+        {
+          question: '49. What is an advantage of wireless networking?',
+          options: [
+            'A) Requires extensive cabling',
+            'B) Cost-effective for difficult-to-wire areas',
+            'C) Limited user mobility',
+            'D) High maintenance costs',
+          ],
+          correctAnswer: 'B) Cost-effective for difficult-to-wire areas',
+        },
+        {
+          question: '50. How does wireless networking support user mobility?',
+          options: [
+            'A) By restricting access to fixed locations',
+            'B) By allowing users to move freely in the workplace',
+            'C) By requiring wired connections',
+            'D) By limiting network range',
+          ],
+          correctAnswer: 'B) By allowing users to move freely in the workplace',
+        },
+        {
+          question: '51. What is Li-Fi?',
+          options: [
+            'A) A wired networking technology',
+            'B) Transmission of data through LED light illumination',
+            'C) A satellite-based communication system',
+            'D) A cellular generation',
+          ],
+          correctAnswer:
+            'B) Transmission of data through LED light illumination',
+        },
+        {
+          question: '52. What is a key advantage of Li-Fi over Wi-Fi?',
+          options: [
+            'A) Uses radio spectrum',
+            'B) Faster data transfer speed (>1 Gbps)',
+            'C) Limited to short ranges',
+            'D) Requires a license for operation',
+          ],
+          correctAnswer: 'B) Faster data transfer speed (>1 Gbps)',
+        },
+      ]
+
+      // Function to shuffle array
+      function shuffleArray(array) {
+        const shuffled = [...array]
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1))
+          ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+        }
+        return shuffled
+      }
+
+      // Function to remove letter prefix from option
+      function cleanOption(option) {
+        return option.replace(/^[a-zA-Z]\)\s*/, '')
+      }
+
+      // Function to extract answer letter from correctAnswer
+      function getAnswerLetter(correctAnswer) {
+        const match = correctAnswer.match(/^([a-d])\)/)
+        return match ? match[1].toUpperCase() : ''
+      }
+
+      let activeChapters = []
+      // Function to render questions
+      function renderQuestions() {
+        console.log('Rendered')
+        console.log(activeChapters)
+        let questionsData = []
+        const chpaterQuestions = {
+          2: chapter2,
+          3: chapter3,
+          5: chapter5,
+          6: chapter6,
+          7: chapter7,
+          8: chapter8,
+        }
+        const chapters = [...document.querySelector('.btns').children]
+        for (const chapter of chapters) {
+          const chapterId = chapter.dataset.chapter
+          if (activeChapters.includes(+chapterId)) {
+            questionsData = [
+              ...questionsData,
+              ...(chpaterQuestions[chapterId] || []),
+            ]
+          }
+          chapter.onclick = () => {
+            const index = activeChapters.indexOf(+chapterId)
+            console.log(index)
+            if (index !== -1) {
+              activeChapters.splice(index, 1)
+
+              chapter.classList.remove('active')
+            } else {
+              activeChapters.push(+chapterId)
+              chapter.classList.add('active')
+            }
+            renderQuestions()
+          }
+        }
+
+        const container = document.getElementById('questionsContainer')
+        container.innerHTML = ''
+        // Shuffle the questions array
+        console.log(questionsData)
+        const shuffledQuestions = shuffleArray(questionsData)
+        console.log(shuffledQuestions)
+
+        shuffledQuestions.forEach((questionData, index) => {
+          // Clean and shuffle options
+          const cleanedOptions = questionData.options.map(cleanOption)
+          const shuffledOptions = shuffleArray(cleanedOptions)
+
+          // Find the correct answer text
+          const correctAnswerLetter = getAnswerLetter(
+            questionData.correctAnswer
+          )
+          const correctAnswerText = cleanOption(questionData.correctAnswer)
+
+          // Find the new position of correct answer after shuffling
+          const correctAnswerIndex = shuffledOptions.findIndex(
+            (option) => option === correctAnswerText
+          )
+          const newAnswerLetter = String.fromCharCode(65 + correctAnswerIndex) // A, B, C, D
+
+          const questionCard = document.createElement('div')
+          questionCard.className = 'question-card'
+          console.log('sad')
+          questionCard.innerHTML = `
+                    <div class="question-number">Question ${index + 1}</div>
+                    <div class="question-text">${questionData.question}</div>
+                    <ul class="options">
+                        ${shuffledOptions
+                          .map(
+                            (option, optIndex) =>
+                              `<li class="option">${String.fromCharCode(
+                                65 + optIndex
+                              )}) ${option}</li>`
+                          )
+                          .join('')}
+                    </ul>
+                    <div class="answer">Answer: ${newAnswerLetter}</div>
+                `
+
+          container.appendChild(questionCard)
+        })
+      }
+
+      // Initialize the page
+      document.addEventListener('DOMContentLoaded', renderQuestions)
+    </script>
+  </body>
+</html>
