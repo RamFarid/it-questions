@@ -164,7 +164,7 @@
     </div>
     <div class="container">
       <div class="header">
-        <h1>Quiz Questions</h1>
+        <h1 id="question-title">Quiz Questions</h1>
         <p>Review questions with shuffled options</p>
       </div>
       <div class="questions-container" id="questionsContainer">
@@ -3628,27 +3628,31 @@
       }
 
       let activeChapters = []
+      const chpaterQuestions = {
+        2: chapter2,
+        3: chapter3,
+        4: chapter4,
+        5: chapter5,
+        6: chapter6,
+        7: chapter7,
+        8: chapter8,
+      }
       // Function to render questions
       function renderQuestions() {
         console.log('Rendered')
         console.log(activeChapters)
         let questionsData = []
-        const chpaterQuestions = {
-          2: chapter2,
-          3: chapter3,
-          5: chapter5,
-          6: chapter6,
-          7: chapter7,
-          8: chapter8,
-        }
+
+        const title = document.getElementById('question-title')
+        title.innerHTML = 'Questions: '
+
         const chapters = [...document.querySelector('.btns').children]
         for (const chapter of chapters) {
           const chapterId = chapter.dataset.chapter
           if (activeChapters.includes(+chapterId)) {
-            questionsData = [
-              ...questionsData,
-              ...(chpaterQuestions[chapterId] || []),
-            ]
+            const target = chpaterQuestions[chapterId] || []
+            questionsData = [...questionsData, ...target]
+            if (target.length) title.innerHTML += `, Chapter ${chapterId}`
           }
           chapter.onclick = () => {
             const index = activeChapters.indexOf(+chapterId)
